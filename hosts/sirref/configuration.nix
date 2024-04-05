@@ -1,10 +1,7 @@
 { pkgs, config, lib, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-    ./networking.nix
-  ];
+  imports = [ ./hardware-configuration.nix ./networking.nix ];
 
   boot.loader.grub = {
     enable = true;
@@ -16,11 +13,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  environment.systemPackages = with pkgs; [
-    git
-    vim
-    tmux
-  ];
+  environment.systemPackages = with pkgs; [ git vim tmux ];
 
   programs.bash.promptInit = ''
     PS1='\u@\h:\w \$ '
@@ -32,13 +25,14 @@
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       initialHashedPassword = root.initialHashedPassword;
       openssh.authorizedKeys.keys = [
- 	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
     };
     root = {
-      initialHashedPassword = "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
+      initialHashedPassword =
+        "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
       openssh.authorizedKeys.keys = [
- 	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
     };
   };
