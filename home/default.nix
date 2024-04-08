@@ -10,6 +10,11 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+  };
+
   programs.zsh = {
     enable = true;
     history = {
