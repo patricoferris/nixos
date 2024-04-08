@@ -58,7 +58,6 @@
           modules = [
             ./home/default.nix
             {
-              home.stateVersion = "23.11";
               home.username = "pf341";
               home.homeDirectory = "/home/pf341";
             }
@@ -72,7 +71,6 @@
           modules = [
             ./home/default.nix
             {
-              home.stateVersion = "23.11";
               home.username = "patrickferris";
               home.homeDirectory = "/Users/patrickferris";
             }
