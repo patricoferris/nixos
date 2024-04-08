@@ -1,6 +1,8 @@
 { pkgs, config, ... }:
 
 {
+  programs.home-manager.enable = true;
+
   programs.neovim = {
     enable = true;
     viAlias = true;
@@ -16,20 +18,10 @@
       lua-language-server
       ltex-ls
     ];
-    extraLuaConfig = builtins.readFile ../modules/personal/nvim/nvim.lua;
+    extraLuaConfig = builtins.readFile ./nvim.lua;
     # undo transparent background
     # + "colorscheme gruvbox";
     plugins = let
-      obsidian-nvim = (pkgs.vimUtils.buildVimPlugin {
-        pname = "obsidian.nvim";
-        version = "2.6.0";
-        src = pkgs.fetchFromGitHub {
-          owner = "epwalsh";
-          repo = "obsidian.nvim";
-          rev = "v2.6.0";
-          sha256 = "sha256-+w3XYoobuH17oinPfQxhrizbmQB5IbbulUK69674/Wg=";
-        };
-      });
       ltex-ls-nvim = (pkgs.vimUtils.buildVimPlugin {
         pname = "ltex-ls.nvim";
         version = "2.6.0";

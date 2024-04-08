@@ -44,12 +44,19 @@
           ];
         };
       };
-      homeConfigurations.patrick = let
+      homeConfigurations.pf341 = let
         system = "x86_64-linux";
         pkgs = nixpkgs.legacyPackages.${system};
       in home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home/default.nix ];
+        modules = [
+		  ./home/default.nix
+		  {
+             home.stateVersion = "23.11";
+			 home.username = "pf341";
+			 home.homeDirectory = "/home/pf341";
+		  }
+		];
       };
       darwinConfigurations = {
         hostname = darwin.lib.darwinSystem {
