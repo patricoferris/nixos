@@ -8,10 +8,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    neovim.url =
+      "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, ...
-    }@inputs: rec {
+  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
+    , neovim, ... }@inputs: rec {
       nixosConfigurations = {
         sirref = nixpkgs.lib.nixosSystem {
           system = null;
@@ -37,6 +39,8 @@
                       config = config.nixpkgs.config;
                     };
                     mautrix-signal = final.overlay-unstable.mautrix-signal;
+                    neovim-unwrapped =
+                      neovim.packages.${config.nixpkgs.hostPlatform.system}.default;
                   })
                 ];
               };
