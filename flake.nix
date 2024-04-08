@@ -48,34 +48,38 @@
           ];
         };
       };
-      homeConfigurations.pf341 = let
-        system = "x86_64-linux";
-        pkgs = nixpkgs.legacyPackages.${system};
-      in home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-		  ./home/default.nix
-		  {
-			  home.stateVersion = "23.11";
-			 home.username = "pf341";
-			 home.homeDirectory = "/home/pf341";
-		  }
-		];
+
+      homeConfigurations = {
+        pf341 = let
+          system = "x86_64-linux";
+          pkgs = nixpkgs.legacyPackages.${system};
+        in home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home/default.nix
+            {
+              home.stateVersion = "23.11";
+              home.username = "pf341";
+              home.homeDirectory = "/home/pf341";
+            }
+          ];
+        };
+        patrickferris = let
+          system = "aarch64-darwin";
+          pkgs = nixpkgs.legacyPackages.${system};
+        in home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home/default.nix
+            {
+              home.stateVersion = "23.11";
+              home.username = "patrickferris";
+              home.homeDirectory = "/Users/patrickferris";
+            }
+          ];
+        };
       };
-      homeConfigurations.patrickferris = let
-        system = "aarch64-darwin";
-        pkgs = nixpkgs.legacyPackages.${system};
-      in home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-		  ./home/default.nix
-		  {
-             home.stateVersion = "23.11";
-			 home.username = "patrickferris";
-			 home.homeDirectory = "/Users/patrickferris";
-		  }
-		];
-      };
+
       darwinConfigurations = {
         hostname = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
@@ -91,6 +95,8 @@
           ];
         };
       };
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+
+      formatter = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed
+        (system: nixpkgs.legacyPackages.${system}.nixfmt);
     };
 }
