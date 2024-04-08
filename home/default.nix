@@ -4,6 +4,11 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [ fzf ];
+  
+  nix = {
+    package = pkgs.nix;
+    settings.experimental-features = [ "nix-command" "flakes" ];
+  };
 
   programs.zsh = {
     enable = true;
@@ -18,7 +23,7 @@
     initExtraFirst = ''
       export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion history)
       export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=5"
-      PROMPT='%(?..%F{red}%3?%f )%F{cyan}%n@%m%f:%~ %#'$'\n'
+      PROMPT='%(?..%F{red}%3?%f )%F{cyan}%n@%m%f:%~'$'\n%# '
     '';
     initExtra = builtins.readFile ./zsh.cfg;
   };
