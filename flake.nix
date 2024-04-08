@@ -56,9 +56,23 @@
         modules = [
 		  ./home/default.nix
 		  {
-             home.stateVersion = "23.11";
+			  home.stateVersion = "23.11";
 			 home.username = "pf341";
 			 home.homeDirectory = "/home/pf341";
+		  }
+		];
+      };
+      homeConfigurations.patrickferris = let
+        system = "aarch64-darwin";
+        pkgs = nixpkgs.legacyPackages.${system};
+      in home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+		  ./home/default.nix
+		  {
+             home.stateVersion = "23.11";
+			 home.username = "patrickferris";
+			 home.homeDirectory = "/Users/patrickferris";
 		  }
 		];
       };
