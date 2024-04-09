@@ -3,7 +3,7 @@
 {
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [ fzf ];
+  home.packages = with pkgs; [ fzf graphviz sqlite gmp ];
   
   nix = {
     package = pkgs.nix;
