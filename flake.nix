@@ -7,13 +7,14 @@
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
+    agenix.url = "github:ryantm/agenix";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url =
       "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
-    , neovim, ... }@inputs: rec {
+    , neovim, agenix, ... }@inputs: rec {
       nixosConfigurations = {
         sirref = nixpkgs.lib.nixosSystem {
           system = null;
@@ -22,6 +23,7 @@
             ./hosts/sirref/configuration.nix
             eilean.nixosModules.default
             home-manager.nixosModule
+            agenix.nixosModules.default
             ({ config, ... }: {
               networking.hostName = "sirref";
               home-manager.users.patrick = import ./home/default.nix;
@@ -38,6 +40,7 @@
                       system = config.nixpkgs.hostPlatform.system;
                       config = config.nixpkgs.config;
                     };
+                    agenix = agenix.packages.${config.nixpkgs.hostPlatform.system}.default;
                     mautrix-signal = final.overlay-unstable.mautrix-signal;
                     neovim-unwrapped =
                       neovim.packages.${config.nixpkgs.hostPlatform.system}.default;
@@ -50,17 +53,18 @@
       };
 
       homeConfigurations = {
-        pf341 = let
-          system = "x86_64-linux";
+       pf341 = let
+         system = "x86_64-linux";
           pkgs = nixpkgs.legacyPackages.${system};
         in home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./home/default.nix
             {
+package = pkgs.nix;
               home.username = "pf341";
-              home.homeDirectory = "/home/pf341";
-            }
+             home.homeDirectory = "/home/pf341";
+           }
           ];
         };
         patrickferris = let
@@ -70,8 +74,9 @@
           inherit pkgs;
           modules = [
             ./home/default.nix
-            {
-              home.username = "patrickferris";
+           {
+package = pkgs.nix;
+             home.username = "patrickferris";
               home.homeDirectory = "/Users/patrickferris";
             }
           ];
@@ -79,7 +84,7 @@
       };
 
       darwinConfigurations = {
-        hostname = darwin.lib.darwinSystem {
+       hostname = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
             # TODO

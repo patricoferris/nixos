@@ -6,7 +6,6 @@
   home.packages = with pkgs; [ fzf graphviz sqlite gmp ];
   
   nix = {
-    package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 

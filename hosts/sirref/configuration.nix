@@ -13,7 +13,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  environment.systemPackages = with pkgs; [ git vim tmux ];
+  environment.systemPackages = with pkgs; [ git vim tmux agenix ];
 
   programs.bash.promptInit = ''
     PS1='\u@\h:\w \$ '
@@ -57,11 +57,43 @@
 
     username = "patrick";
 
-    # mailserver.enable = true;
+    mailserver.enable = true;
     matrix.enable = true;
     # mastodon.enable = true;
     # gitea.enable = true;
     # headscale.enable = true;
+  };
+
+  eilean.services.dns.zones = {
+    ${config.networking.domain} = {
+      records = [
+        {
+          name = ""
+        }
+      ]
+    }
+  };
+
+  # <><><> Email <><><>
+  age.secrets.email-patrick.file = ../../secrets/email-patrick.age;
+  age.secrets.email-system.file = ../../secrets/email-system.age;
+  eilean.mailserver.systemAccountPasswordFile =
+    config.age.secrets.email-system.path;
+  mailserver.loginAccounts = {
+    "${config.eilean.username}@${config.networking.domain}" = {
+      passwordFile = config.age.secrets.email-patrick.path;
+      aliases = [
+        "dns@${config.networking.domain}"
+        "postmaster@${config.networking.domain}"
+      ];
+    };
+    "misc@${config.networking.domain}" = {
+      passwordFile = config.age.secrets.email-patrick.path;
+      catchAll = [ "${config.networking.domain}" ];
+    };
+    "system@${config.networking.domain}" = {
+      aliases = [ "nas@${config.networking.domain}" ];
+    };
   };
 
   # This value determines the NixOS release from which the default
