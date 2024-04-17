@@ -28,6 +28,13 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
     };
+    technical_support = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILpJ2Y1tRU37NQBy6sP+Cz/iNiJ6ZGqlIDeBR5bx+oEl ryan@freumh.org"
+      ];
+    };
     root = {
       initialHashedPassword =
         "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
@@ -58,7 +65,11 @@
     username = "patrick";
 
     mailserver.enable = true;
-    matrix.enable = true;
+    matrix = {
+      enable = true;
+      bridges.whatsapp = true;
+      bridges.signal = true;
+    };
     # mastodon.enable = true;
     # gitea.enable = true;
     # headscale.enable = true;
@@ -66,12 +77,13 @@
 
   eilean.services.dns.zones = {
     ${config.networking.domain} = {
-      records = [
-        {
-          name = ""
-        }
-      ]
-    }
+      records = [{
+        name = "mail._domainkey.sirref.org";
+        type = "TXT";
+        data =
+          "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
+      }];
+    };
   };
 
   # <><><> Email <><><>

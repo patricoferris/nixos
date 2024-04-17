@@ -4,10 +4,8 @@
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [ fzf graphviz sqlite gmp ];
-  
-  nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-  };
+
+  nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
 
   programs.tmux = {
     enable = true;

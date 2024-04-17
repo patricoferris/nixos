@@ -40,7 +40,8 @@
                       system = config.nixpkgs.hostPlatform.system;
                       config = config.nixpkgs.config;
                     };
-                    agenix = agenix.packages.${config.nixpkgs.hostPlatform.system}.default;
+                    agenix =
+                      agenix.packages.${config.nixpkgs.hostPlatform.system}.default;
                     mautrix-signal = final.overlay-unstable.mautrix-signal;
                     neovim-unwrapped =
                       neovim.packages.${config.nixpkgs.hostPlatform.system}.default;
@@ -53,18 +54,18 @@
       };
 
       homeConfigurations = {
-       pf341 = let
-         system = "x86_64-linux";
+        pf341 = let
+          system = "x86_64-linux";
           pkgs = nixpkgs.legacyPackages.${system};
         in home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./home/default.nix
             {
-package = pkgs.nix;
+              package = pkgs.nix;
               home.username = "pf341";
-             home.homeDirectory = "/home/pf341";
-           }
+              home.homeDirectory = "/home/pf341";
+            }
           ];
         };
         patrickferris = let
@@ -74,9 +75,9 @@ package = pkgs.nix;
           inherit pkgs;
           modules = [
             ./home/default.nix
-           {
-package = pkgs.nix;
-             home.username = "patrickferris";
+            {
+              package = pkgs.nix;
+              home.username = "patrickferris";
               home.homeDirectory = "/Users/patrickferris";
             }
           ];
@@ -84,7 +85,7 @@ package = pkgs.nix;
       };
 
       darwinConfigurations = {
-       hostname = darwin.lib.darwinSystem {
+        hostname = darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           modules = [
             # TODO
