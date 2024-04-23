@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, ryan-nixos, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ./networking.nix ];
@@ -75,15 +75,42 @@
     # headscale.enable = true;
   };
 
+  eilean.services.dns.nameservers = [ ];
   eilean.services.dns.zones = {
     ${config.networking.domain} = {
-      records = [{
-        name = "mail._domainkey.sirref.org";
-        type = "TXT";
-        data =
-          "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
-      }];
+      records = [
+        {
+          name = "@";
+          type = "NS";
+          data = "ns1";
+        }
+        {
+          name = "@";
+          type = "NS";
+          data = "ns1.freumh.org";
+        }
+
+        {
+          name = "ns1";
+          type = "A";
+          data = config.eilean.serverIpv4;
+        }
+        {
+          name = "ns1";
+          type = "AAAA";
+          data = config.eilean.serverIpv6;
+        }
+
+        {
+          name = "mail._domainkey.sirref.org";
+          type = "TXT";
+          data =
+            "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
+        }
+      ];
     };
+    "freumh.org" =
+      ryan-nixos.nixosConfigurations.owl.config.eilean.services.dns.zones."freumh.org";
   };
 
   # <><><> Email <><><>

@@ -11,6 +11,7 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url =
       "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
+    ryan-nixos.url = "github:RyanGibb/nixos";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
@@ -19,6 +20,7 @@
         sirref = nixpkgs.lib.nixosSystem {
           system = null;
           pkgs = null;
+          specialArgs = inputs;
           modules = [
             ./hosts/sirref/configuration.nix
             eilean.nixosModules.default
