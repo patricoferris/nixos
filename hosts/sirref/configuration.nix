@@ -75,7 +75,7 @@
     # headscale.enable = true;
   };
 
-  eilean.services.dns.nameservers = [ ];
+  eilean.dns.nameservers = [ ];
   eilean.services.dns.zones = {
     ${config.networking.domain} = {
       records = [
@@ -87,7 +87,7 @@
         {
           name = "@";
           type = "NS";
-          data = "ns1.freumh.org";
+          data = "ns1.freumh.org.";
         }
 
         {
