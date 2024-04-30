@@ -1,7 +1,7 @@
 { pkgs, config, lib, ryan-nixos, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ./networking.nix ];
+  imports = [ ./hardware-configuration.nix ./networking.nix ../../modules/patrick-website.nix ];
 
   boot.loader.grub = {
     enable = true;
@@ -57,6 +57,13 @@
   time.timeZone = "Europe/London";
   console.keyMap = "uk";
 
+  age.secrets.cal-patrick = {
+    file = ../../secrets/cal-patrick.age;
+    mode = "770";
+    owner = "${config.systemd.services.radicale.serviceConfig.User}";
+    group = "${config.systemd.services.radicale.serviceConfig.Group}";
+  };
+ 
   eilean = {
     serverIpv4 = "95.216.193.242";
     serverIpv6 = "2a01:4f9:c010:8298::1";
@@ -70,6 +77,13 @@
       bridges.whatsapp = true;
       bridges.signal = true;
     };
+
+    # <><><> Calendar <><><>
+    radicale = {
+      enable = true;
+      users.${config.eilean.username}.passwordFile = config.age.secrets.cal-patrick.path;
+    };
+
     # mastodon.enable = true;
     # gitea.enable = true;
     # headscale.enable = true;

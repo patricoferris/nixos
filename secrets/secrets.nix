@@ -7,4 +7,5 @@ let
 in {
   "email-patrick.age".publicKeys = user ++ [ sirref ];
   "email-system.age".publicKeys = user ++ [ sirref ];
+  "cal-patrick.age".publicKeys = user ++ [ sirref ];
 }
