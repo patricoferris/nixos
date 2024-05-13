@@ -64,7 +64,7 @@
           modules = [
             ./home/default.nix
             {
-              package = pkgs.nix;
+              nix.package = pkgs.nix;
               home.username = "pf341";
               home.homeDirectory = "/home/pf341";
             }
@@ -78,9 +78,10 @@
           modules = [
             ./home/default.nix
             {
-              package = pkgs.nix;
+              nix.package = pkgs.nix;
               home.username = "patrickferris";
               home.homeDirectory = "/Users/patrickferris";
+              custom.calendar.enable = true;
             }
           ];
         };

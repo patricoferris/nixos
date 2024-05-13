@@ -1,6 +1,7 @@
 { pkgs, config, ... }:
 
 {
+  imports = [ ./calendar.nix ];
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [ fzf graphviz sqlite gmp ];
@@ -59,6 +60,28 @@
           sha256 = "sha256-jY3ALr6h88xnWN2QdKe3R0vvRcSNhFWDW56b2NvnTCs=";
         };
       });
+      # Experimental Dune Support
+      coqtail = (pkgs.vimUtils.buildVimPlugin {
+        pname = "coqtail";
+        version = "1.8.0";
+        src = pkgs.fetchFromGitHub {
+          owner = "whonore";
+          repo = "Coqtail";
+          rev = "a27cf3b38d831020f7e687b7fd6f209b90c32a8f";
+          sha256 = "sha256-MgbRhhXz9d2Qc/D8/3IRuFiNLhCiybXPyeETl/I0urs";
+        };
+      });
+      coq-lsp-nvim = (pkgs.vimUtils.buildVimPlugin {
+        pname = "coq-lsp.nvim";
+        version = "1.0.0";
+        src = pkgs.fetchFromGitHub {
+          owner = "tomtomjhj";
+          repo = "coq-lsp.nvim";
+          rev = "e8f8edd56bde52e64f98824d0737127356b8bd4e";
+          sha256 = "sha256-hBr0gi1FD3eZa45mUe3ohJ13SVd7v75udPT8ttH9dNE=";
+        };
+      });
+
     in with pkgs.vimPlugins; [
       gruvbox-nvim
 
@@ -67,6 +90,7 @@
       trouble-nvim
 
       pkgs.ripgrep
+      
 
       {
         plugin = nvim-lspconfig;
@@ -103,6 +127,9 @@
       vimtex
       nvim-surround
       comment-nvim
+
+      coqtail
+      coq-lsp-nvim
 
       ltex-ls-nvim
     ];
