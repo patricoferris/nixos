@@ -15,7 +15,25 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
-    , neovim, agenix, ... }@inputs: rec {
+    , neovim, agenix, ... }@inputs:
+      let
+        getSystemOverlays = system: nixpkgsConfig: [
+                  (final: prev: {
+                    overlay-unstable = import nixpkgs-unstable {
+                      inherit system;
+                      # follow stable nixpkgs config
+              config = nixpkgsConfig;
+                    };
+                    russ = prev.callPackage ./pkgs/russ.nix { };
+                    agenix =
+                      agenix.packages.${system}.default;
+                    mautrix-signal = final.overlay-unstable.mautrix-signal;
+                    neovim-unwrapped =
+                      neovim.packages.${system}.default;
+                  })
+      ];
+      in
+      rec {
       nixosConfigurations = {
         sirref = nixpkgs.lib.nixosSystem {
           system = null;
@@ -36,19 +54,7 @@
                 nixpkgs.lib.mkIf (self ? rev) self.rev;
               nixpkgs = {
                 config.allowUnfree = true;
-                overlays = [
-                  (final: prev: {
-                    overlay-unstable = import nixpkgs-unstable {
-                      system = config.nixpkgs.hostPlatform.system;
-                      config = config.nixpkgs.config;
-                    };
-                    agenix =
-                      agenix.packages.${config.nixpkgs.hostPlatform.system}.default;
-                    mautrix-signal = final.overlay-unstable.mautrix-signal;
-                    neovim-unwrapped =
-                      neovim.packages.${config.nixpkgs.hostPlatform.system}.default;
-                  })
-                ];
+                overlays = getSystemOverlays config.nixpkgs.hostPlatform.system config.nixpkgs.config;
               };
             })
           ];
@@ -79,6 +85,7 @@
             ./home/default.nix
             {
               nix.package = pkgs.nix;
+              nixpkgs.overlays = getSystemOverlays "aarch64-darwin" { };
               home.username = "patrickferris";
               home.homeDirectory = "/Users/patrickferris";
               custom.calendar.enable = true;
@@ -98,6 +105,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.patrick = import ./home/default.nix;
+              nixpkgs.overlays = getSystemOverlays "aarch64-darwin" { };
             }
           ];
         };
