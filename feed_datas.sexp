@@ -1,0 +1,2 @@
+(version 2)
+((previous_entries((https://xkcd.com/atom.xml((https://xkcd.com/2930/())(https://xkcd.com/2931/())(https://xkcd.com/2932/())(https://xkcd.com/2933/())))(https://patrick.sirref.org/posts/index.xml((https://patrick.sirref.org/posts/escaping-effects.html())(https://patrick.sirref.org/posts/ocaml-rtree.html())(https://patrick.sirref.org/posts/retrofitting-ocaml-onto-me.html())))))(next_update((https://xkcd.com/atom.xml 1715966799)(https://patrick.sirref.org/posts/index.xml 1715966799)))(page_contents())(unsent_mails()))

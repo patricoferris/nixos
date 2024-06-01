@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  imports = [ ./calendar.nix ./rss_to_email.nix ];
+  imports = [ ./calendar.nix ];
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [ fzf graphviz sqlite gmp russ ];
@@ -12,12 +12,6 @@
     enable = true;
     mouse = true;
   };
-
-  services.rss_to_mail = {
-    enable = true;
-    users = [ "patrick" ];
-  };
-
 
   programs.zsh = {
     enable = true;

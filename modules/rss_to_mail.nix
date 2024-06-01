@@ -38,7 +38,7 @@ in
         WorkingDirectory = "~";
         User = "%i";
         Environment="CA_BUNDLE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-        ExecStart = "${rss_to_mail}/bin/rss_to_mail";
+        ExecStart = "${pkgs.rss_to_mail}/bin/rss_to_mail run /var/lib/feeds.sexp";
       };
     };
 
