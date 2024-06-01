@@ -12,10 +12,12 @@
     neovim.url =
       "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
     ryan-nixos.url = "github:RyanGibb/nixos";
+    rss_to_mail.url = "github:Julow/rss_to_mail";
+    rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
-    , neovim, agenix, ... }@inputs:
+    , neovim, agenix, rss_to_mail, ... }@inputs:
       let
         getSystemOverlays = system: nixpkgsConfig: [
                   (final: prev: {
@@ -27,6 +29,7 @@
                     russ = prev.callPackage ./pkgs/russ.nix { };
                     agenix =
                       agenix.packages.${system}.default;
+                    rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
                     mautrix-signal = final.overlay-unstable.mautrix-signal;
                     neovim-unwrapped =
                       neovim.packages.${system}.default;
