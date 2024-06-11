@@ -63,6 +63,7 @@
   networking.hostName = "sirref";
   networking.domain = "sirref.org";
   security.acme.acceptTerms = true;
+  security.acme-eon.acceptTerms = true;
 
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/London";
