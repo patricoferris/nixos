@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ryan-nixos, ... }:
+{ pkgs, config, lib, ... }:
 
 {
   imports = [ 
@@ -176,8 +176,6 @@
         }
       ];
     };
-    "freumh.org" =
-      ryan-nixos.nixosConfigurations.owl.config.eilean.services.dns.zones."freumh.org";
   };
 
   # <><><> Email <><><>

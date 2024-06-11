@@ -11,7 +11,6 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url =
       "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
-    ryan-nixos.url = "github:RyanGibb/nixos";
     rss_to_mail.url = "github:Julow/rss_to_mail";
     rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
   };
