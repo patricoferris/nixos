@@ -11,12 +11,12 @@
       {
         name = "patrick.${config.networking.domain}.";
         type = "CNAME";
-        data = "vps";
+        value = "vps";
       }
       {
         name = "www.patrick.${config.networking.domain}.";
         type = "CNAME";
-        data = "vps";
+        value = "vps";
       }
   ];
 }

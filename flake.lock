@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1714399639,
-        "narHash": "sha256-TZDMfZqd9rnwBTgtnYTo4H8OrINUee6dYKQeJbw/nsc=",
+        "lastModified": 1718122402,
+        "narHash": "sha256-12UgxHJssCbJbp06cbUnPMaxyLHY1DCx/gVsc6ElPRE=",
         "owner": "RyanGibb",
         "repo": "eilean-nix",
-        "rev": "dd6d09f1c840917622881570929331e67b9a9779",
+        "rev": "9f18f9702d4db513c4d1f84533cb781cc0f6fc40",
         "type": "github"
       },
       "original": {
@@ -113,11 +113,11 @@
         "opam-repository": "opam-repository"
       },
       "locked": {
-        "lastModified": 1713007178,
-        "narHash": "sha256-091K5GMtbNZE78gSviME6ARITr6AL94f3naLzt2DabM=",
+        "lastModified": 1718122335,
+        "narHash": "sha256-ooeplCUj5dY2KT840ecFtR+iDq1V2iB5rDsFqjbdFSs=",
         "owner": "RyanGibb",
         "repo": "eon",
-        "rev": "d2b108c439bbd6e8a315630d730037ef940d6c74",
+        "rev": "87b7ec1cd6cb7dc0f950d8d37a91845465780faf",
         "type": "github"
       },
       "original": {
@@ -255,16 +255,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1714043624,
-        "narHash": "sha256-Xn2r0Jv95TswvPlvamCC46wwNo8ALjRCMBJbGykdhcM=",
+        "lastModified": 1717527182,
+        "narHash": "sha256-vWSkg6AMok1UUQiSYVdGMOXKD2cDFnajITiSi0Zjd1A=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "86853e31dc1b62c6eeed11c667e8cdd0285d4411",
+        "rev": "845a5c4c073f74105022533907703441e0464bc3",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-23.11",
+        "ref": "release-24.05",
         "repo": "home-manager",
         "type": "github"
       }
@@ -442,16 +442,16 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1715668745,
-        "narHash": "sha256-xp62OkRkbUDNUc6VSqH02jB0FbOS+MsfMb7wL1RJOfA=",
+        "lastModified": 1717952948,
+        "narHash": "sha256-mJi4/gjiwQlSaxjA6AusXBN/6rQRaPCycR7bd8fydnQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "9ddcaffecdf098822d944d4147dd8da30b4e6843",
+        "rev": "2819fffa7fa42156680f0d282c60d81e8fb185b7",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-23.11",
+        "ref": "nixos-24.05",
         "repo": "nixpkgs",
         "type": "github"
       }

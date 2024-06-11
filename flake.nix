@@ -1,10 +1,10 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     eilean.url = "github:RyanGibb/eilean-nix/main";
     eilean.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     agenix.url = "github:ryantm/agenix";
@@ -29,7 +29,6 @@
                     agenix =
                       agenix.packages.${system}.default;
                     rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
-                    mautrix-signal = final.overlay-unstable.mautrix-signal;
                     neovim-unwrapped =
                       neovim.packages.${system}.default;
                   })

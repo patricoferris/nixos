@@ -11,12 +11,12 @@
       {
         name = "deskrejection.com.";
         type = "CNAME";
-        data = "vps";
+        value = "vps";
       }
       {
         name = "www.deskrejection.com.";
         type = "CNAME";
-        data = "vps";
+        value = "vps";
       }
   ];
 }

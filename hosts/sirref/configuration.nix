@@ -63,6 +63,7 @@
   networking.hostName = "sirref";
   networking.domain = "sirref.org";
   security.acme.acceptTerms = true;
+  security.acme-eon.acceptTerms = true;
 
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/London";
@@ -107,27 +108,27 @@
         {
           name = "@";
           type = "NS";
-          data = "ns1";
+          value = "ns1";
         }
         {
           name = "@";
           type = "NS";
-          data = "ns1.freumh.org.";
+          value = "ns1.freumh.org.";
         }
         {
           name = "ns1";
           type = "A";
-          data = config.eilean.serverIpv4;
+          value = config.eilean.serverIpv4;
         }
         {
           name = "ns1";
           type = "AAAA";
-          data = config.eilean.serverIpv6;
+          value = config.eilean.serverIpv6;
         }
         {
           name = "mail._domainkey.sirref.org";
           type = "TXT";
-          data =
+          value =
             "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
         }
       ];
@@ -137,42 +138,42 @@
       records = [{
           name = "@";
           type = "NS";
-          data = "ns1";
+          value = "ns1";
         }
         {
           name = "@";
           type = "NS";
-          data = "ns1.freumh.org.";
+          value = "ns1.freumh.org.";
         }
         {
           name = "ns1";
           type = "A";
-          data = config.eilean.serverIpv4;
+          value = config.eilean.serverIpv4;
         }
         {
           name = "ns1";
           type = "AAAA";
-          data = config.eilean.serverIpv6;
+          value = config.eilean.serverIpv6;
         }
         {
           name = "ns2";
           type = "A";
-          data = config.eilean.serverIpv4;
+          value = config.eilean.serverIpv4;
         }
         {
           name = "ns2";
           type = "AAAA";
-          data = config.eilean.serverIpv6;
+          value = config.eilean.serverIpv6;
         }
         {
           name = "@";
           type = "A";
-          data = config.eilean.serverIpv4;
+          value = config.eilean.serverIpv4;
         }
         {
           name = "@";
           type = "AAAA";
-          data = config.eilean.serverIpv6;
+          value = config.eilean.serverIpv6;
         }
       ];
     };
