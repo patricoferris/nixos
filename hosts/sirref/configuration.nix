@@ -154,35 +154,16 @@
     }; 
     "deskrejection.com" = {
       soa.serial = 1706745602;
+      soa.ns = "ns1.sirref.org";
       records = [{
           name = "@";
           type = "NS";
-          value = "ns1";
+          value = "ns1.sirref.org.";
         }
         {
           name = "@";
           type = "NS";
           value = "ns1.freumh.org.";
-        }
-        {
-          name = "ns1";
-          type = "A";
-          value = config.eilean.serverIpv4;
-        }
-        {
-          name = "ns1";
-          type = "AAAA";
-          value = config.eilean.serverIpv6;
-        }
-        {
-          name = "ns2";
-          type = "A";
-          value = config.eilean.serverIpv4;
-        }
-        {
-          name = "ns2";
-          type = "AAAA";
-          value = config.eilean.serverIpv6;
         }
         {
           name = "@";

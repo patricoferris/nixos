@@ -5,18 +5,8 @@
     enableACME = true;
     forceSSL = true;
     root = "/var/deskrejection";
+    locations."/fonts/".extraConfig = ''
+      alias /var/deskrejection/fonts/;
+    '';
   };
-
-  eilean.services.dns.zones."deskrejection.com".records = [
-      {
-        name = "deskrejection.com.";
-        type = "CNAME";
-        value = "vps";
-      }
-      {
-        name = "www.deskrejection.com.";
-        type = "CNAME";
-        value = "vps";
-      }
-  ];
 }
