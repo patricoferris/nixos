@@ -83,6 +83,8 @@
 
     username = "patrick";
 
+    services.dns.server = "eon";
+
     mailserver.enable = true;
     matrix = {
       enable = true;
@@ -99,6 +101,23 @@
     # mastodon.enable = true;
     # gitea.enable = true;
     # headscale.enable = true;
+  };
+
+  age.secrets.eon-capnp = {
+    file = ../../secrets/eon-capnp.age;
+    mode = "770";
+    owner = "eon";
+    group = "eon";
+  };
+  age.secrets.eon-freumh-primary = {
+    file = ../../secrets/eon-freumh-primary.age;
+    mode = "770";
+    owner = "eon";
+    group = "eon";
+  };
+  services.eon = {
+    capnpSecretKeyFile = config.age.secrets.eon-capnp.path;
+    primaries = [ config.age.secrets.eon-freumh-primary.path ];
   };
 
   eilean.dns.nameservers = [ ];
