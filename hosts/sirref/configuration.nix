@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ryan-nixos, ... }:
+{ pkgs, config, lib, ... }:
 
 {
   imports = [ 
@@ -63,6 +63,7 @@
   networking.hostName = "sirref";
   networking.domain = "sirref.org";
   security.acme.acceptTerms = true;
+  security.acme-eon.acceptTerms = true;
 
   i18n.defaultLocale = "en_GB.UTF-8";
   time.timeZone = "Europe/London";
@@ -82,6 +83,8 @@
 
     username = "patrick";
 
+    services.dns.server = "eon";
+
     mailserver.enable = true;
     matrix = {
       enable = true;
@@ -98,6 +101,23 @@
     # mastodon.enable = true;
     # gitea.enable = true;
     # headscale.enable = true;
+  };
+
+  age.secrets.eon-capnp = {
+    file = ../../secrets/eon-capnp.age;
+    mode = "770";
+    owner = "eon";
+    group = "eon";
+  };
+  age.secrets.eon-freumh-primary = {
+    file = ../../secrets/eon-freumh-primary.age;
+    mode = "770";
+    owner = "eon";
+    group = "eon";
+  };
+  services.eon = {
+    capnpSecretKeyFile = config.age.secrets.eon-capnp.path;
+    primaries = [ config.age.secrets.eon-freumh-primary.path ];
   };
 
   eilean.dns.nameservers = [ ];
@@ -176,8 +196,6 @@
         }
       ];
     };
-    "freumh.org" =
-      ryan-nixos.nixosConfigurations.owl.config.eilean.services.dns.zones."freumh.org";
   };
 
   # <><><> Email <><><>
