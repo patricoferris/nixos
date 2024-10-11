@@ -7,6 +7,7 @@
     ../../modules/patrick-website.nix
     ../../modules/desk-rejection-website.nix
     ../../modules/rss_to_mail.nix
+    ../../modules/hedgedoc.nix
   ];
 
   boot.loader.grub = {
@@ -53,11 +54,6 @@
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
-  };
-
-  services.rss_to_mail = {
-    enable = true;
-    users = [ "patrick" ];
   };
 
   networking.hostName = "sirref";

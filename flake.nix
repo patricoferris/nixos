@@ -55,6 +55,7 @@
                 nixpkgs.lib.mkIf (self ? rev) self.rev;
               nixpkgs = {
                 config.allowUnfree = true;
+		config.permittedInsecurePackages = [ "olm-3.2.16" ];
                 overlays = getSystemOverlays config.nixpkgs.hostPlatform.system config.nixpkgs.config;
               };
             })
