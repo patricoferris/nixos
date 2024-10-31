@@ -72,6 +72,20 @@
     group = "${config.systemd.services.radicale.serviceConfig.Group}";
   };
  
+  age.secrets.cal-deskrejection = {
+    file = ../../secrets/cal-deskrejection.age;
+    mode = "770";
+    owner = "${config.systemd.services.radicale.serviceConfig.User}";
+    group = "${config.systemd.services.radicale.serviceConfig.Group}";
+  };
+
+  age.secrets.cal-metrick = {
+    file = ../../secrets/cal-metrick.age;
+    mode = "770";
+    owner = "${config.systemd.services.radicale.serviceConfig.User}";
+    group = "${config.systemd.services.radicale.serviceConfig.Group}";
+  };
+
   eilean = {
     serverIpv4 = "95.216.193.242";
     serverIpv6 = "2a01:4f9:c010:8298::1";
@@ -92,6 +106,8 @@
     radicale = {
       enable = true;
       users.${config.eilean.username}.passwordFile = config.age.secrets.cal-patrick.path;
+      users.deskrejection.passwordFile = config.age.secrets.cal-deskrejection.path;
+      users.metrick.passwordFile = config.age.secrets.cal-metrick.path;
     };
 
     # mastodon.enable = true;
@@ -195,6 +211,11 @@
     "system@${config.networking.domain}" = {
       aliases = [ "nas@${config.networking.domain}" ];
     };
+  };
+
+  services.rss_to_mail = {
+    enable = true;
+    users = [ "patrick" ];
   };
 
   # This value determines the NixOS release from which the default
