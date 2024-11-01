@@ -1,8 +1,7 @@
 # H/T to Ryan: https://github.com/RyanGibb/nixos/commit/9af693c4e623ce1be96516f221a59192d67540e5
 { pkgs, config, lib, ... }:
 
-let
-  cfg = config.custom.calendar;
+let cfg = config.custom.calendar;
 in {
   options.custom.calendar.enable = lib.mkEnableOption "calendar";
 
@@ -20,15 +19,11 @@ in {
           datetimeformat = "%Y-%m-%d %I:%M%p";
           longdatetimeformat = "%Y-%m-%d %I:%M%p";
         };
-        settings = {
-          default.default_calendar = "patrick_sirref_org";
-        };
+        settings = { default.default_calendar = "patrick_sirref_org"; };
       };
     };
 
-    services = {
-      vdirsyncer.enable = true;
-    };
+    services = { vdirsyncer.enable = true; };
 
     accounts.calendar = {
       basePath = "calendar";
@@ -38,13 +33,13 @@ in {
             enable = true;
             color = "white";
           };
-          vdirsyncer = {
-            enable = true;
-          };
+          vdirsyncer = { enable = true; };
           remote = {
             type = "caldav";
-            url = "https://cal.sirref.org/patrick/803232e5-a529-b6f4-390b-a5ace9248e76/";
-            passwordCommand = [ "${pkgs.pass}/bin/pass" "show" "calendar/patrick@sirref.org" ];
+            url =
+              "https://cal.sirref.org/patrick/803232e5-a529-b6f4-390b-a5ace9248e76/";
+            passwordCommand =
+              [ "${pkgs.pass}/bin/pass" "show" "calendar/patrick@sirref.org" ];
             userName = "patrick";
           };
           local = {

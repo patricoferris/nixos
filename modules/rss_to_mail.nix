@@ -16,15 +16,14 @@ let
   rss_to_mail = pkgs.rss_to_mail;
 
   conf = config.services.rss_to_mail;
-in
 
-{
+in {
   options.services.rss_to_mail = with lib; {
     enable = mkEnableOption "rss_to_mail";
 
     users = mkOption {
       type = types.nonEmptyListOf types.str;
-      default = [];
+      default = [ ];
       description = "Users for which to enable Rss_to_mail.";
     };
   };
@@ -37,8 +36,9 @@ in
         Type = "oneshot";
         WorkingDirectory = "~";
         User = "%i";
-        Environment="CA_BUNDLE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-        ExecStart = "${pkgs.rss_to_mail}/bin/rss_to_mail run /var/lib/feeds.sexp";
+        Environment = "CA_BUNDLE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+        ExecStart =
+          "${pkgs.rss_to_mail}/bin/rss_to_mail run /var/lib/feeds.sexp";
       };
     };
 

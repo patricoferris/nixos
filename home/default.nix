@@ -4,7 +4,7 @@
   imports = [ ./calendar.nix ];
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [ fzf graphviz sqlite gmp russ ];
+  home.packages = with pkgs; [ fzf graphviz sqlite gmp russ lima ];
 
   nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
 
@@ -90,7 +90,6 @@
       trouble-nvim
 
       pkgs.ripgrep
-      
 
       {
         plugin = nvim-lspconfig;

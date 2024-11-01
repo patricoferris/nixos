@@ -1,7 +1,7 @@
 { pkgs, config, lib, ... }:
 
 {
-  imports = [ 
+  imports = [
     ./hardware-configuration.nix
     ./networking.nix
     ../../modules/patrick-website.nix
@@ -71,7 +71,7 @@
     owner = "${config.systemd.services.radicale.serviceConfig.User}";
     group = "${config.systemd.services.radicale.serviceConfig.Group}";
   };
- 
+
   eilean = {
     serverIpv4 = "95.216.193.242";
     serverIpv6 = "2a01:4f9:c010:8298::1";
@@ -91,7 +91,8 @@
     # <><><> Calendar <><><>
     radicale = {
       enable = true;
-      users.${config.eilean.username}.passwordFile = config.age.secrets.cal-patrick.path;
+      users.${config.eilean.username}.passwordFile =
+        config.age.secrets.cal-patrick.path;
     };
 
     # mastodon.enable = true;
@@ -147,11 +148,12 @@
             "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
         }
       ];
-    }; 
+    };
     "deskrejection.com" = {
       soa.serial = 1706745602;
       soa.ns = "ns1.sirref.org";
-      records = [{
+      records = [
+        {
           name = "@";
           type = "NS";
           value = "ns1.sirref.org.";
