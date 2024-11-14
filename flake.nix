@@ -2,6 +2,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-neovim.url =
+      "github:nixos/nixpkgs/a76212122970925d09aa2021a93e00d359e631dd";
     eilean.url = "github:RyanGibb/eilean-nix/main";
     eilean.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-24.05";
@@ -15,8 +17,8 @@
     rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
-    , neovim, agenix, rss_to_mail, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-neovim, eilean
+    , home-manager, darwin, agenix, rss_to_mail, ... }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig:
         [
@@ -51,7 +53,8 @@
               });
             agenix = agenix.packages.${system}.default;
             rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
-            neovim-unwrapped = neovim.packages.${system}.default;
+            neovim-unwrapped =
+              (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
           })
         ];
     in {
