@@ -71,7 +71,7 @@
     owner = "${config.systemd.services.radicale.serviceConfig.User}";
     group = "${config.systemd.services.radicale.serviceConfig.Group}";
   };
- 
+
   age.secrets.cal-deskrejection = {
     file = ../../secrets/cal-deskrejection.age;
     mode = "770";
@@ -105,8 +105,10 @@
     # <><><> Calendar <><><>
     radicale = {
       enable = true;
-      users.${config.eilean.username}.passwordFile = config.age.secrets.cal-patrick.path;
-      users.deskrejection.passwordFile = config.age.secrets.cal-deskrejection.path;
+      users.${config.eilean.username}.passwordFile =
+        config.age.secrets.cal-patrick.path;
+      users.deskrejection.passwordFile =
+        config.age.secrets.cal-deskrejection.path;
       users.metrick.passwordFile = config.age.secrets.cal-metrick.path;
     };
 
