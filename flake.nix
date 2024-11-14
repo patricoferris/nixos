@@ -17,24 +17,44 @@
 
   outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin
     , neovim, agenix, rss_to_mail, ... }@inputs:
-      let
-        getSystemOverlays = system: nixpkgsConfig: [
-                  (final: prev: {
-                    overlay-unstable = import nixpkgs-unstable {
-                      inherit system;
-                      # follow stable nixpkgs config
+    let
+      getSystemOverlays = system: nixpkgsConfig:
+        [
+          (final: prev: {
+            overlay-unstable = import nixpkgs-unstable {
+              inherit system;
+              # follow stable nixpkgs config
               config = nixpkgsConfig;
+            };
+            russ = prev.callPackage ./pkgs/russ.nix { };
+            lima = (prev.callPackage
+              "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
+                sigtool = prev.darwin.sigtool;
+                buildGoModule = args:
+                  prev.buildGoModule (args // rec {
+                    version = "0.23.2";
+                    src = prev.fetchFromSourcehut {
+                      owner = "lima-vm";
+                      repo = "lima";
+                      rev = "74e2fda81b8d367a3bee3dcec92f2b83f575460b";
+                      sha256 =
+                        "sha256-rZZAIj7hWmRj9o0FRXN1kWMGNYQEd6YbshqYe+WUNeo=";
                     };
-                    russ = prev.callPackage ./pkgs/russ.nix { };
-                    agenix =
-                      agenix.packages.${system}.default;
-                    rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
-                    neovim-unwrapped =
-                      neovim.packages.${system}.default;
-                  })
-      ];
-      in
-      rec {
+                    vendorHash =
+                      "sha256-DSv4U0Dg4zlbzN0Jsiw793z4zu0a+BmcGo9QQUrencE=";
+                    buildPhase = ''
+                      runHook preBuild
+                      make "VERSION=v${version}" binaries
+                      runHook postBuild
+                    '';
+                  });
+              });
+            agenix = agenix.packages.${system}.default;
+            rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
+            neovim-unwrapped = neovim.packages.${system}.default;
+          })
+        ];
+    in {
       nixosConfigurations = {
         sirref = nixpkgs.lib.nixosSystem {
           system = null;
@@ -55,8 +75,9 @@
                 nixpkgs.lib.mkIf (self ? rev) self.rev;
               nixpkgs = {
                 config.allowUnfree = true;
-		config.permittedInsecurePackages = [ "olm-3.2.16" ];
-                overlays = getSystemOverlays config.nixpkgs.hostPlatform.system config.nixpkgs.config;
+                config.permittedInsecurePackages = [ "olm-3.2.16" ];
+                overlays = getSystemOverlays config.nixpkgs.hostPlatform.system
+                  config.nixpkgs.config;
               };
             })
           ];
@@ -112,6 +133,14 @@
           ];
         };
       };
+
+      legacyPackages = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed
+        (system: {
+          nixpkgs = import nixpkgs {
+            inherit system;
+            overlays = getSystemOverlays system { };
+          };
+        });
 
       formatter = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed
         (system: nixpkgs.legacyPackages.${system}.nixfmt);

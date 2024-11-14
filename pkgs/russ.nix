@@ -1,10 +1,4 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, rustPlatform
-, xorg
-, darwin
-}:
+{ lib, stdenv, fetchFromGitHub, rustPlatform, xorg, darwin }:
 
 rustPlatform.buildRustPackage {
   pname = "russ";
@@ -22,13 +16,12 @@ rustPlatform.buildRustPackage {
   # tests are network based :(
   doCheck = false;
 
-  buildInputs = lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    CoreServices
-    AppKit
-  ]);
+  buildInputs = lib.optionals stdenv.isDarwin
+    (with darwin.apple_sdk.frameworks; [ CoreServices AppKit ]);
 
   meta = with lib; {
-    description = "A TUI RSS reader with vim-like controls and a local-first, offline-first focus";
+    description =
+      "A TUI RSS reader with vim-like controls and a local-first, offline-first focus";
     mainProgram = "russ";
     homepage = "https://github.com/ckampfe/russ";
     license = with licenses; [ agpl3Only ];

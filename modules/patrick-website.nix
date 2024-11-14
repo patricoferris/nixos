@@ -8,15 +8,15 @@
   };
 
   eilean.services.dns.zones.${config.networking.domain}.records = [
-      {
-        name = "patrick.${config.networking.domain}.";
-        type = "CNAME";
-        value = "vps";
-      }
-      {
-        name = "www.patrick.${config.networking.domain}.";
-        type = "CNAME";
-        value = "vps";
-      }
+    {
+      name = "patrick.${config.networking.domain}.";
+      type = "CNAME";
+      value = "vps";
+    }
+    {
+      name = "www.patrick.${config.networking.domain}.";
+      type = "CNAME";
+      value = "vps";
+    }
   ];
 }

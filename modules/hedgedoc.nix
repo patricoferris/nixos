@@ -9,13 +9,11 @@
       locations."/socket.io/" = {
         proxyPass = "http://localhost:3333";
         proxyWebsockets = true;
-        extraConfig = 
-          "proxy_ssl_server_name on;"
-        ;
+        extraConfig = "proxy_ssl_server_name on;";
       };
     };
   };
-    
+
   services.hedgedoc = {
     enable = true;
     settings = {
@@ -29,12 +27,10 @@
       protocolUseSSL = true;
     };
   };
-  
-  eilean.services.dns.zones.${config.networking.domain}.records = [
-      {
-        name = "notes.${config.networking.domain}.";
-        type = "CNAME";
-        value = "vps";
-      }
-  ];
+
+  eilean.services.dns.zones.${config.networking.domain}.records = [{
+    name = "notes.${config.networking.domain}.";
+    type = "CNAME";
+    value = "vps";
+  }];
 }
