@@ -377,6 +377,22 @@
         "type": "indirect"
       }
     },
+    "nixpkgs-neovim": {
+      "locked": {
+        "lastModified": 1721818836,
+        "narHash": "sha256-oN8i9xd91okESBjp2LqXpVI61x3X23F3Y/FIS8bv4Xo=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a76212122970925d09aa2021a93e00d359e631dd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a76212122970925d09aa2021a93e00d359e631dd",
+        "type": "github"
+      }
+    },
     "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1727634051,
@@ -633,6 +649,7 @@
         "home-manager": "home-manager_2",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs_4",
+        "nixpkgs-neovim": "nixpkgs-neovim",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "rss_to_mail": "rss_to_mail"
       }
