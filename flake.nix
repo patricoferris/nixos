@@ -115,6 +115,7 @@
               home.username = "patrickferris";
               home.homeDirectory = "/Users/patrickferris";
               custom.calendar.enable = true;
+              custom.nvim-lsps = true;
             }
           ];
         };
