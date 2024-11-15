@@ -116,6 +116,13 @@
               home.homeDirectory = "/Users/patrickferris";
               custom.calendar.enable = true;
               custom.nvim-lsps = true;
+              programs.zsh.initExtra = ''
+                # Nix
+                if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+                  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+                fi
+                # End Nix
+              '';
             }
           ];
         };
