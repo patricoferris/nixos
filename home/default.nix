@@ -4,7 +4,7 @@
   imports = [ ./calendar.nix ./nvim/default.nix ];
   programs.home-manager.enable = true;
 
-  home.packages = with pkgs; [ fzf graphviz sqlite gmp russ lima ];
+  home.packages = with pkgs; [ fzf graphviz sqlite gmp russ ];
 
   nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
 

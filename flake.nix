@@ -97,6 +97,8 @@
             ./home/default.nix
             {
               nix.package = pkgs.nix;
+              nixpkgs.overlays = getSystemOverlays "x86_64-linux" { };
+              custom.nvim-lsps = true;
               home.username = "pf341";
               home.homeDirectory = "/home/pf341";
             }
@@ -116,6 +118,7 @@
               home.homeDirectory = "/Users/patrickferris";
               custom.calendar.enable = true;
               custom.nvim-lsps = true;
+              home.packages = with pkgs; [ fzf graphviz sqlite gmp russ lima ];
               programs.zsh.initExtra = ''
                 # Nix
                 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
