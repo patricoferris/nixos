@@ -6,6 +6,8 @@
       "github:nixos/nixpkgs/a76212122970925d09aa2021a93e00d359e631dd";
     eilean.url = "github:RyanGibb/eilean-nix/main";
     eilean.inputs.nixpkgs.follows = "nixpkgs";
+    eon.url = "github:RyanGibb/eon";
+    eilean.inputs.eon.follows = "eon";
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
