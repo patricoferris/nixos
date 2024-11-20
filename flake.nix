@@ -61,7 +61,7 @@
                   "http://ryan.freumh.org/software/opam-full-2.3.0-nixos-depexts.tar.gz";
                 sha256 = "sha256-mRxxZtWFgQ8v1szVq5g5+qVqa+OffoG1aHzGUiMMvT0=";
               };
-              version = "2.3.0";
+              version = "2.3.0+ryan";
             });
           })
         ];
@@ -126,7 +126,7 @@
               home.homeDirectory = "/Users/patrickferris";
               custom.calendar.enable = true;
               custom.nvim-lsps = true;
-              home.packages = with pkgs; [ fzf opam graphviz sqlite gmp russ lima ];
+              home.packages = with pkgs; [ lima ];
               programs.zsh.initExtra = ''
                 # Nix
                 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
