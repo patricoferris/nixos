@@ -57,6 +57,14 @@
             rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
             neovim-unwrapped =
               (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
+            opam = final.overlay-unstable.opam.overrideAttrs (_: {
+              src = final.fetchurl {
+                url =
+                  "http://ryan.freumh.org/software/opam-full-2.3.0-nixos-depexts.tar.gz";
+                sha256 = "sha256-mRxxZtWFgQ8v1szVq5g5+qVqa+OffoG1aHzGUiMMvT0=";
+              };
+              version = "2.3.0+ryan";
+            });
           })
         ];
     in {
@@ -120,7 +128,7 @@
               home.homeDirectory = "/Users/patrickferris";
               custom.calendar.enable = true;
               custom.nvim-lsps = true;
-              home.packages = with pkgs; [ fzf graphviz sqlite gmp russ lima ];
+              home.packages = with pkgs; [ lima ];
               programs.zsh.initExtra = ''
                 # Nix
                 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
