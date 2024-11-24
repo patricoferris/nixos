@@ -112,11 +112,11 @@
         "opam-repository": "opam-repository"
       },
       "locked": {
-        "lastModified": 1732106609,
-        "narHash": "sha256-+GVcfwp8IFtd27/qgJXd4dPC5q1xrZamyZDki93aQTk=",
+        "lastModified": 1732116112,
+        "narHash": "sha256-5SotMo/LFgj2q62AxQ6urkZK+yL7EUfatzoAazhYP/M=",
         "owner": "RyanGibb",
         "repo": "eon",
-        "rev": "39fff54b67ea44ce94af7cc0b215aac29a33ec64",
+        "rev": "3fe439844c30f8ad8a1213a86b04efdcb7bf1008",
         "type": "github"
       },
       "original": {
@@ -454,11 +454,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1727672256,
-        "narHash": "sha256-9/79hjQc9+xyH+QxeMcRsA6hDyw6Z9Eo1/oxjvwirLk=",
+        "lastModified": 1731797254,
+        "narHash": "sha256-df3dJApLPhd11AlueuoN0Q4fHo/hagP75LlM5K1sz9g=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1719f27dd95fd4206afb9cec9f415b539978827e",
+        "rev": "e8c38b73aeb218e27163376a2d617e61a2ad9b59",
         "type": "github"
       },
       "original": {
