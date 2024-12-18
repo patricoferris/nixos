@@ -1,0 +1,52 @@
+configuration {
+	modi: "window,drun,ssh";
+	show-icons: true;
+	separator-style: "none";
+}
+
+window {
+	padding: 5px;
+	background-color: #282828;
+}
+
+inputbar {
+	children: [entry];
+}
+
+listview {
+    border: none;
+}
+
+entry {
+	padding: 5px;
+	text-color: #ebdbb2;
+	placeholder: "";
+}
+
+textbox {
+	text-color: #ebdbb2;
+	background-color: argb:00000000;
+}
+
+element {
+	background-color: argb:00000000;
+}
+
+element.normal.normal {
+	text-color: #ebdbb2;
+	background-color: #32302f;
+}
+
+element.alternate.normal {
+	text-color: #ebdbb2;
+	background-color: argb:00000000;
+}
+
+element.selected.normal {
+	text-color: #ebdbb2;
+	background-color: #1d2021;
+}
+
+scrollbar {
+	handle-color: #32302f;
+}

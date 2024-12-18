@@ -1,0 +1,5 @@
+
+exec greenclip daemon
+exec systemctl --user start redshift
+
+exec systemctl --user import-environment XAUTHORITY DISPLAY

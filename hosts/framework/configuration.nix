@@ -5,19 +5,27 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  custom = {
+    enable = true;
+    gui.i3 = true;
+    gui.sway = true;
+    homeManager.enable = true;
+  };
+  security.acme-eon.acceptTerms = true;
+
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -26,26 +34,8 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties
-  i18n.defaultLocale = "en_GB.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    #keyMap = "uk";
-    useXkbConfig = true; # use xkb.options in tty.
-  };
-
-  programs.sway.enable = true;
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;

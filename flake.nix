@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-neovim.url =
       "github:nixos/nixpkgs/a76212122970925d09aa2021a93e00d359e631dd";
@@ -8,7 +8,7 @@
     eilean.inputs.nixpkgs.follows = "nixpkgs";
     eon.url = "github:RyanGibb/eon";
     eilean.inputs.eon.follows = "eon";
-    home-manager.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     agenix.url = "github:ryantm/agenix";
@@ -17,56 +17,58 @@
       "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
     rss_to_mail.url = "github:Julow/rss_to_mail";
     rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
+    nur.url =
+      "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-neovim, eilean
-    , home-manager, darwin, agenix, rss_to_mail, ... }@inputs:
+    , home-manager, darwin, agenix, rss_to_mail, nur, ... }@inputs:
     let
-      getSystemOverlays = system: nixpkgsConfig:
-        [
-          (final: prev: {
-            overlay-unstable = import nixpkgs-unstable {
-              inherit system;
-              # follow stable nixpkgs config
-              config = nixpkgsConfig;
-            };
-            russ = prev.callPackage ./pkgs/russ.nix { };
-            lima = (prev.callPackage
-              "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
-                sigtool = prev.darwin.sigtool;
-                buildGoModule = args:
-                  prev.buildGoModule (args // rec {
-                    version = "0.23.2";
-                    src = prev.fetchFromSourcehut {
-                      owner = "lima-vm";
-                      repo = "lima";
-                      rev = "74e2fda81b8d367a3bee3dcec92f2b83f575460b";
-                      sha256 =
-                        "sha256-rZZAIj7hWmRj9o0FRXN1kWMGNYQEd6YbshqYe+WUNeo=";
-                    };
-                    vendorHash =
-                      "sha256-DSv4U0Dg4zlbzN0Jsiw793z4zu0a+BmcGo9QQUrencE=";
-                    buildPhase = ''
-                      runHook preBuild
-                      make "VERSION=v${version}" binaries
-                      runHook postBuild
-                    '';
-                  });
-              });
-            agenix = agenix.packages.${system}.default;
-            rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
-            neovim-unwrapped =
-              (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
-            opam = final.overlay-unstable.opam.overrideAttrs (_: {
-              src = final.fetchurl {
-                url =
-                  "http://ryan.freumh.org/software/opam-full-2.3.0-nixos-depexts.tar.gz";
-                sha256 = "sha256-mRxxZtWFgQ8v1szVq5g5+qVqa+OffoG1aHzGUiMMvT0=";
-              };
-              version = "2.3.0+ryan";
+      getSystemOverlays = system: nixpkgsConfig: [
+        (final: prev: {
+          overlay-unstable = import nixpkgs-unstable {
+            inherit system;
+            # follow stable nixpkgs config
+            config = nixpkgsConfig;
+          };
+          russ = prev.callPackage ./pkgs/russ.nix { };
+          lima = (prev.callPackage
+            "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
+              sigtool = prev.darwin.sigtool;
+              buildGoModule = args:
+                prev.buildGoModule (args // rec {
+                  version = "0.23.2";
+                  src = prev.fetchFromSourcehut {
+                    owner = "lima-vm";
+                    repo = "lima";
+                    rev = "74e2fda81b8d367a3bee3dcec92f2b83f575460b";
+                    sha256 =
+                      "sha256-rZZAIj7hWmRj9o0FRXN1kWMGNYQEd6YbshqYe+WUNeo=";
+                  };
+                  vendorHash =
+                    "sha256-DSv4U0Dg4zlbzN0Jsiw793z4zu0a+BmcGo9QQUrencE=";
+                  buildPhase = ''
+                    runHook preBuild
+                    make "VERSION=v${version}" binaries
+                    runHook postBuild
+                  '';
+                });
             });
-          })
-        ];
+          agenix = agenix.packages.${system}.default;
+          rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
+          neovim-unwrapped =
+            (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
+          opam = final.overlay-unstable.opam.overrideAttrs (_: {
+            src = final.fetchurl {
+              url =
+                "http://ryan.freumh.org/software/opam-full-2.3.0-nixos-depexts.tar.gz";
+              sha256 = "sha256-mRxxZtWFgQ8v1szVq5g5+qVqa+OffoG1aHzGUiMMvT0=";
+            };
+            version = "2.3.0+ryan";
+          });
+        })
+        nur.overlays.default
+      ];
     in {
       nixosConfigurations = {
         sirref = nixpkgs.lib.nixosSystem {
@@ -75,14 +77,12 @@
           specialArgs = inputs;
           modules = [
             ./hosts/sirref/configuration.nix
+            ./modules/default.nix
             eilean.nixosModules.default
             home-manager.nixosModule
             agenix.nixosModules.default
             ({ config, ... }: {
               networking.hostName = "sirref";
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.patrick = import ./home/default.nix;
               # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
               nix.registry.nixpkgs.flake = nixpkgs;
               # record git revision (can be queried with `nixos-version --json)
@@ -103,13 +103,12 @@
           specialArgs = inputs;
           modules = [
             ./hosts/framework/configuration.nix
+            ./modules/default.nix
+            eilean.nixosModules.default
             home-manager.nixosModule
             agenix.nixosModules.default
             ({ config, ... }: {
               networking.hostName = "framework";
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.patrick = import ./home/default.nix;
               # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
               nix.registry.nixpkgs.flake = nixpkgs;
               # record git revision (can be queried with `nixos-version --json)

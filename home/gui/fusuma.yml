@@ -1,0 +1,37 @@
+swipe:
+  3:
+    threshhold: 1
+    interval: 1
+    left:
+      command: "wtype -M alt -k right -m alt"
+    right:
+      command: "wtype -M alt -k left -m alt"
+    up:
+      command: "wtype -M ctrl -k tab -m ctrl"
+    down:
+      command: "wtype -M ctrl -M shift -k tab -m ctrl -m shift"
+  4:
+    threshhold: 0
+    interval: 1
+    left:
+      command: "wtype -M logo -k period -m logo"
+    right:
+      command: "wtype -M logo -k comma -m logo"
+    up:
+      command: "brightnessctl set 1%+"
+      threshold: 0
+      interval: 0.05
+      keypress:
+        LEFTSHIFT:
+          command: "pactl set-sink-volume @DEFAULT_SINK@ +1%"
+          threshold: 0
+          interval: 0.05
+    down:
+      command: "brightnessctl set 1%-"
+      threshold: 0
+      interval: 0.05
+      keypress:
+        LEFTSHIFT:
+          command: "pactl set-sink-volume @DEFAULT_SINK@ -1%"
+          threshold: 0
+          interval: 0.05
