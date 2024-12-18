@@ -1,14 +1,7 @@
 { pkgs, config, lib, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-    ./networking.nix
-    ../../modules/patrick-website.nix
-    ../../modules/desk-rejection-website.nix
-    ../../modules/rss_to_mail.nix
-    ../../modules/hedgedoc.nix
-  ];
+  imports = [ ./hardware-configuration.nix ./networking.nix ];
 
   boot.loader.grub = {
     enable = true;
@@ -16,6 +9,14 @@
     device = "nodev";
     efiSupport = true;
     useOSProber = true;
+  };
+
+  custom = {
+    enable = true;
+    homeManager.enable = true;
+    patrick-website.enable = true;
+    deskrejection-website.enable = true;
+    hedgedoc.enable = true;
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -57,7 +58,6 @@
   };
 
   networking.hostName = "sirref";
-  networking.domain = "sirref.org";
   security.acme.acceptTerms = true;
   security.acme-eon.acceptTerms = true;
 

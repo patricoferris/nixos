@@ -1,0 +1,8 @@
+
+exec playerctld daemon
+exec thunar --daemon
+
+exec @notification_deamon@
+
+exec --no-startup-id fcitx5 -d
+

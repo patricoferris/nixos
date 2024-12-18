@@ -1,0 +1,12 @@
+
+bindsym $mod+r       exec "pkill i3bar; i3bar --bar_id bar-0"
+bindsym $mod+Shift+r exec "i3-msg reload"
+
+bindsym $mod+q exec dunstctl close-all
+
+bindsym $mod+Shift+v         exec rofi -i -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+bindsym $mod+Control+v       exec greenclip print | head -n 1 | xclip -i -selection "clipboard"
+bindsym $mod+Shift+Control+v exec xdotool type "$(greenclip print | head -n 1)"
+
+# for when latop output is disabled on resume
+bindsym $mod+Shift+p   exec xrandr --output "$($SCRIPT_DIR/get_focused_output.sh)" --off

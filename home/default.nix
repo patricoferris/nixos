@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  imports = [ ./calendar.nix ./nvim/default.nix ];
+  imports = [ ./gui/default.nix ./calendar.nix ./nvim/default.nix ];
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [ fzf opam graphviz sqlite gmp russ ];
