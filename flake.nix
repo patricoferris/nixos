@@ -80,6 +80,8 @@
             agenix.nixosModules.default
             ({ config, ... }: {
               networking.hostName = "sirref";
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
               home-manager.users.patrick = import ./home/default.nix;
               # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
               nix.registry.nixpkgs.flake = nixpkgs;
@@ -89,6 +91,32 @@
               nixpkgs = {
                 config.allowUnfree = true;
                 config.permittedInsecurePackages = [ "olm-3.2.16" ];
+                overlays = getSystemOverlays config.nixpkgs.hostPlatform.system
+                  config.nixpkgs.config;
+              };
+            })
+          ];
+        };
+        framework = nixpkgs.lib.nixosSystem {
+          system = null;
+          pkgs = null;
+          specialArgs = inputs;
+          modules = [
+            ./hosts/framework/configuration.nix
+            home-manager.nixosModule
+            agenix.nixosModules.default
+            ({ config, ... }: {
+              networking.hostName = "framework";
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.patrick = import ./home/default.nix;
+              # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
+              nix.registry.nixpkgs.flake = nixpkgs;
+              # record git revision (can be queried with `nixos-version --json)
+              system.configurationRevision =
+                nixpkgs.lib.mkIf (self ? rev) self.rev;
+              nixpkgs = {
+                config.allowUnfree = true;
                 overlays = getSystemOverlays config.nixpkgs.hostPlatform.system
                   config.nixpkgs.config;
               };

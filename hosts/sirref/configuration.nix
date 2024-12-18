@@ -20,7 +20,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  environment.systemPackages = with pkgs; [ git vim tmux agenix ];
+  environment.systemPackages = with pkgs; [ git agenix ];
 
   programs.bash.promptInit = ''
     PS1='\u@\h:\w \$ '
