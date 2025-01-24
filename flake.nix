@@ -1,5 +1,6 @@
 {
   inputs = {
+    nixpkgs-compat.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-neovim.url =
@@ -21,11 +22,16 @@
       "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-neovim, eilean
+  outputs = { self, nixpkgs, nixpkgs-compat, nixpkgs-unstable, nixpkgs-neovim, eilean
     , home-manager, darwin, agenix, rss_to_mail, nur, ... }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig: [
         (final: prev: {
+          overlay-compat = import nixpkgs-compat {
+            inherit system;
+            # follow stable nixpkgs config
+            config = nixpkgsConfig;
+          };
           overlay-unstable = import nixpkgs-unstable {
             inherit system;
             # follow stable nixpkgs config
@@ -54,6 +60,7 @@
                   '';
                 });
             });
+          mautrix-whatsapp = final.overlay-compat.mautrix-whatsapp;
           agenix = agenix.packages.${system}.default;
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
           neovim-unwrapped =

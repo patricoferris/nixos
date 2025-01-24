@@ -132,6 +132,8 @@
   services.eon = {
     capnpSecretKeyFile = config.age.secrets.eon-capnp.path;
     primaries = [ config.age.secrets.eon-freumh-primary.path ];
+    capnpAddress = "95.216.193.242";
+    logLevel = 0;
   };
 
   eilean.dns.nameservers = [ ];

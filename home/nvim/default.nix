@@ -342,7 +342,8 @@ in {
             '';
           }
           {
-            plugin = pkgs.overlay-unstable.vimPlugins.which-key-nvim;
+            # plugin = pkgs.overlay-unstable.vimPlugins.which-key-nvim;
+            plugin = which-key-nvim;
             type = "lua";
             config = ''
               local wk = require('which-key')
