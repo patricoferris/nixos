@@ -161,6 +161,11 @@
           value = config.eilean.serverIpv6;
         }
         {
+          name = "_atproto.patrick";
+          type = "TXT";
+          value = "did=did:plc:vbqt7s7rrltkvlvwavk5ypkf";
+        }
+        {
           name = "mail._domainkey.sirref.org";
           type = "TXT";
           value =
