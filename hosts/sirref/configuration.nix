@@ -166,7 +166,7 @@
           value = "did=did:plc:vbqt7s7rrltkvlvwavk5ypkf";
         }
         {
-          name = "mail._domainkey.sirref.org";
+          name = "mail._domainkey";
           type = "TXT";
           value =
             "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
