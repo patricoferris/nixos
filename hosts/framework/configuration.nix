@@ -21,6 +21,8 @@
   };
   security.acme-eon.acceptTerms = true;
 
+  home-manager.users.${config.custom.username} = { custom.nvim-lsps = true; };
+
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

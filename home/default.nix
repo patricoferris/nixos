@@ -13,6 +13,11 @@
     mouse = true;
   };
 
+  home.shellAliases = {
+    ls = "ls -p --color=auto";
+    nix-shell = "nix-shell --command zsh";
+  };
+
   programs.zsh = {
     enable = true;
     history = {

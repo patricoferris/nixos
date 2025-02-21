@@ -1,4 +1,4 @@
-font pango:Noto Sans Mono 14px
+font pango:"IBM Plex Serif" Regular 14
 
 set $mod Mod4
 set $alt Mod1

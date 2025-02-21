@@ -48,6 +48,13 @@ in {
     };
     systemd.tmpfiles.rules = [ "L+ ${nixPath} - - - - ${pkgs.path}" ];
 
+    users = {
+      users.${cfg.username} = {
+        shell = pkgs.zsh;
+        ignoreShellProgramCheck = true;
+      };
+    };
+
     environment.systemPackages = with pkgs; [
       nix
       git

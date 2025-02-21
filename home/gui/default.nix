@@ -10,8 +10,8 @@ in {
     gtk = {
       enable = true;
       font = {
-        name = "Noto Sans 11";
-        package = pkgs.noto-fonts;
+        name = "IBM Plex Sans 10";
+        package = pkgs.ibm-plex;
       };
       iconTheme = {
         package = pkgs.gruvbox-gtk-theme;
@@ -24,6 +24,20 @@ in {
     };
 
     home = {
+      packages =
+        let
+          status = pkgs.stdenv.mkDerivation {
+            name = "status";
+
+            src = ../status;
+
+            installPhase = ''
+              mkdir -p $out
+              cp -r * $out
+            '';
+          };
+        in
+        [ status ];
       sessionVariables = {
         # evince workaround
         GTK_THEME = "Gruvbox-Dark";
