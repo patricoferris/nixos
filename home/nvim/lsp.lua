@@ -40,9 +40,18 @@ Capabilities = vim.tbl_deep_extend('force',
 Capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
 local lspconfig = require('lspconfig')
+local configs = require('lspconfig.configs')
+configs.mlsp = {
+  default_config = { 
+	  cmd = { "/home/patrick/.opam/vpnkit/bin/mlsp"  },
+      filetypes = { "markdown" },
+	  root_dir = vim.fn.getcwd(),
+	  settings = {}
+  }
+}
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'nixd', 'ocamllsp', 'clangd', 'rust_analyzer', 'pyright', 'gopls', 'typst_lsp', 'hls' }
+local servers = { 'nixd', 'ocamllsp', 'clangd', 'rust_analyzer', 'pyright', 'gopls', 'typst_lsp', 'hls', 'mlsp' }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup {
 		on_attach = On_attach,

@@ -21,7 +21,10 @@
   };
   security.acme-eon.acceptTerms = true;
 
-  home-manager.users.${config.custom.username} = { custom.nvim-lsps = true; };
+  home-manager.users.${config.custom.username} = { 
+    custom.nvim-lsps = true; 
+    custom.mail.enable = true;
+  };
 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -42,11 +45,13 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
+  virtualisation.docker.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = rec {
     patrick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "docker" ]; # Enable ‘sudo’ for the user.
       initialHashedPassword = root.initialHashedPassword;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
