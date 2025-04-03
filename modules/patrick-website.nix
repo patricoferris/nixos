@@ -9,9 +9,6 @@ in {
       enableACME = true;
       forceSSL = true;
       root = "/var/www";
-      extraConfig = ''
-        index index.xml;
-      '';
     };
 
     eilean.services.dns.zones.${config.networking.domain}.records = [
