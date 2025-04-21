@@ -18,12 +18,15 @@
       "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
     rss_to_mail.url = "github:Julow/rss_to_mail";
     rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
+    sherlorocq.url = "github:patricoferris/sherlorocq";
+    sherlorocq.inputs.nixpkgs.follows = "nixpkgs";
     nur.url =
       "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-compat, nixpkgs-unstable, nixpkgs-neovim, eilean
-    , home-manager, darwin, agenix, rss_to_mail, nur, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-compat, nixpkgs-unstable, nixpkgs-neovim
+    , eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, nur, ...
+    }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig: [
         (final: prev: {
@@ -63,6 +66,7 @@
           mautrix-whatsapp = final.overlay-compat.mautrix-whatsapp;
           agenix = agenix.packages.${system}.default;
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
+          sherlorocq = sherlorocq.packages.${system}.sherlorocq;
           neovim-unwrapped =
             (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
           opam = final.overlay-unstable.opam.overrideAttrs (_: {

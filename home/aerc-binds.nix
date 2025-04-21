@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   global = {
     "<C-p>" = ":prev-tab<Enter>";
     "<C-PgUp>" = ":prev-tab<Enter>";
@@ -85,12 +84,11 @@
     "<C-a>" = ":mark -a<Enter>";
     "e" = ":envelope<Enter>";
     "E" = ":envelope -h<Enter>";
-    "s" = ":exec mu find --clearlinks --format=links --linksdir=~/mail/search/results<space>";
+    "s" =
+      ":exec mu find --clearlinks --format=links --linksdir=~/mail/search/results<space>";
   };
 
-  "messages:folder=Drafts" = {
-    "<Enter>" = ":recall<Enter>";
-  };
+  "messages:folder=Drafts" = { "<Enter>" = ":recall<Enter>"; };
 
   view = {
     "/" = ":toggle-key-passthrough<Enter>/";

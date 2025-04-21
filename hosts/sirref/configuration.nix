@@ -17,6 +17,7 @@
     patrick-website.enable = true;
     deskrejection-website.enable = true;
     hedgedoc.enable = true;
+    sherlorocq.enable = true;
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

@@ -21,8 +21,8 @@
   };
   security.acme-eon.acceptTerms = true;
 
-  home-manager.users.${config.custom.username} = { 
-    custom.nvim-lsps = true; 
+  home-manager.users.${config.custom.username} = {
+    custom.nvim-lsps = true;
     custom.mail.enable = true;
   };
 
