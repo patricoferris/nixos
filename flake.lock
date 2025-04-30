@@ -876,11 +876,11 @@
         "opam-repository": "opam-repository_2"
       },
       "locked": {
-        "lastModified": 1734517944,
-        "narHash": "sha256-h0giHFeutIC8slw9jXbPGNVfEq5GFotHZnIstYp3UA4=",
+        "lastModified": 1734539793,
+        "narHash": "sha256-TPDFpZPx84fT1b8X+8ikZhV1yPZSvJhJ2p2ma9c8yxM=",
         "owner": "Julow",
         "repo": "rss_to_mail",
-        "rev": "9316b53c54a48ab78363a98bcb359518106d4b45",
+        "rev": "7861f5525cc19d427ea7c66a0f7a40f00503267c",
         "type": "github"
       },
       "original": {
