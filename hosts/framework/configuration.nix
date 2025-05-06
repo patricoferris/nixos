@@ -13,6 +13,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+
+  # ZFS modprobe support
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+  networking.hostId = "b2bd1c28";
+
   custom = {
     enable = true;
     gui.i3 = true;

@@ -14,6 +14,19 @@ in {
 
     networking.networkmanager.enable = true;
 
+    i18n = {
+      defaultLocale = "en_GB.UTF-8";
+      inputMethod = {
+        enable = true;
+        type = "fcitx5";
+        fcitx5.addons = with pkgs; [
+          fcitx5-rime
+          fcitx5-chinese-addons
+          fcitx5-m17n
+        ];
+      };
+    };
+
     console = {
       font = "Lat2-Terminus16";
       keyMap = "uk";
