@@ -82,18 +82,18 @@
       ];
     in {
       nixosConfigurations = {
-        sirref = nixpkgs.lib.nixosSystem {
+        oak = nixpkgs.lib.nixosSystem {
           system = null;
           pkgs = null;
           specialArgs = inputs;
           modules = [
-            ./hosts/sirref/configuration.nix
+            ./hosts/oak/configuration.nix
             ./modules/default.nix
             eilean.nixosModules.default
             home-manager.nixosModule
             agenix.nixosModules.default
             ({ config, ... }: {
-              networking.hostName = "sirref";
+              networking.hostName = "oak";
               # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
               nix.registry.nixpkgs.flake = nixpkgs;
               # record git revision (can be queried with `nixos-version --json)
@@ -108,18 +108,18 @@
             })
           ];
         };
-        framework = nixpkgs.lib.nixosSystem {
+        maple = nixpkgs.lib.nixosSystem {
           system = null;
           pkgs = null;
           specialArgs = inputs;
           modules = [
-            ./hosts/framework/configuration.nix
+            ./hosts/maple/configuration.nix
             ./modules/default.nix
             eilean.nixosModules.default
             home-manager.nixosModule
             agenix.nixosModules.default
             ({ config, ... }: {
-              networking.hostName = "framework";
+              networking.hostName = "maple";
               # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
               nix.registry.nixpkgs.flake = nixpkgs;
               # record git revision (can be queried with `nixos-version --json)
@@ -127,6 +127,7 @@
                 nixpkgs.lib.mkIf (self ? rev) self.rev;
               nixpkgs = {
                 config.allowUnfree = true;
+                config.permittedInsecurePackages = [ "olm-3.2.16" ];
                 overlays = getSystemOverlays config.nixpkgs.hostPlatform.system
                   config.nixpkgs.config;
               };
