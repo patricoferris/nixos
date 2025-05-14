@@ -91,7 +91,7 @@ require('ltex-ls').setup {
 	on_attach = On_attach,
 	capabilities = Capabilities,
 	use_spellfile = false,
-	filetypes = { 'markdown', 'latex', 'tex', 'bib', 'plaintext', 'mail', 'gitcommit', 'typst' },
+	filetypes = { 'markdown', 'latex', 'tex', 'bib', 'plaintext', 'mail', 'gitcommit' },
 	settings = {
 		ltex = {
 			flags = { debounce_text_changes = 300 },
