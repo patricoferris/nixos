@@ -69,13 +69,13 @@
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
           neovim-unwrapped =
             (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
-          opam = final.overlay-unstable.opam.overrideAttrs (_: {
+          opam = final.overlay-unstable.opam.overrideAttrs (_: rec {
+            version = "2.4.0-alpha1";
             src = final.fetchurl {
-              url =
-                "http://ryan.freumh.org/software/opam-full-2.3.0-nixos-depexts.tar.gz";
-              sha256 = "sha256-mRxxZtWFgQ8v1szVq5g5+qVqa+OffoG1aHzGUiMMvT0=";
+              url = "https://github.com/ocaml/opam/releases/download/${version}/opam-full-${version}.tar.gz";
+              sha256 = "sha256-kRGh8K5sMvmbJtSAEEPIOsim8uUUhrw11I+vVd/nnx4=";
             };
-            version = "2.3.0+ryan";
+            patches = [ ./pkgs/opam-shebangs.patch ];
           });
         })
         nur.overlays.default

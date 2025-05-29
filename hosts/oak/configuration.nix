@@ -58,7 +58,6 @@
     settings.PasswordAuthentication = false;
   };
 
-  networking.hostName = "sirref";
   security.acme.acceptTerms = true;
   security.acme-eon.acceptTerms = true;
 
@@ -96,9 +95,12 @@
 
     services.dns.server = "eon";
 
+    turn.enable = false;
+
     mailserver.enable = true;
     matrix = {
       enable = true;
+      turn.enable = false;
       bridges.whatsapp = true;
       bridges.signal = true;
     };
