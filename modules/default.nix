@@ -8,6 +8,7 @@ in {
     ./desk-rejection-website.nix
     ./rss_to_mail.nix
     ./hedgedoc.nix
+    ./scripts.nix
     ./sherlorocq.nix
     ./gui/default.nix
     ./gui/i3.nix

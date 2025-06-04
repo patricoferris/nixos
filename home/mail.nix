@@ -11,6 +11,21 @@ let
     ${pkgs.mu}/bin/mu index
   '';
   cfg = config.custom.mail;
+  mutt-oauth2 = pkgs.stdenv.mkDerivation {
+    pname = "mutt-oauth2";
+    version = "1.0";
+
+    src = ../scripts;
+
+    buildInputs = [ pkgs.python3 ];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp $src/mutt_oauth2.py $out/bin/mutt_oauth2
+      chmod +x $out/bin/mutt_oauth2
+      sed -i '1i#!/usr/bin/env python3' $out/bin/mutt_oauth2
+    '';
+  };
 in {
   options.custom.mail.enable = lib.mkEnableOption "mail";
 
@@ -118,11 +133,11 @@ in {
             };
           };
         };
-        "pf341@cam.ac.uk" = rec {
+        "pf341@cam.ac.uk" = {
           userName = "pf341@cam.ac.uk";
           address = "pf341@cam.ac.uk";
           realName = "Patrick Ferris";
-          passwordCommand = "${pkgs.pass}/bin/pass show email/pf341@cam.ac.uk";
+          passwordCommand = "${mutt-oauth2}/bin/mutt_oauth2 -t /home/patrick/.password-store/email/cam.gpg";
           flavor = "outlook.office365.com";
           folders = {
             drafts = "Drafts";
@@ -140,8 +155,18 @@ in {
             create = "both";
             expunge = "both";
             remove = "both";
+            extraConfig = {
+              account = {
+                AuthMechs = "XOAUTH2";
+              };
+            };
           };
-          msmtp = { enable = true; };
+          msmtp = { 
+            enable = true;
+            extraConfig = {
+              auth = "xoauth2";
+            };
+          };
           aerc = {
             enable = true;
             extraAccounts = {

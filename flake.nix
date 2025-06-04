@@ -67,6 +67,7 @@
           agenix = agenix.packages.${system}.default;
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
+          isync = prev.isync.override { withCyrusSaslXoauth2 = true; };
           neovim-unwrapped =
             (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
           opam = final.overlay-unstable.opam.overrideAttrs (_: rec {

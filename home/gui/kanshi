@@ -4,9 +4,14 @@ profile {
 	exec ~/.config/sway/scripts/swayidle_suspend.sh
 }
 
-profile 1 {
+profile {
 	output "BOE 0x095F Unknown" position 528,1504 enable
-	output "Dell Inc. DELL P3223QE 21QX5P" mode 3840x2160@60Hz position 0,0
+	output "Dell Inc. DELL P3223QE 21QX5P3" mode 3840x2160@60Hz position 0,0 enable
+	exec ~/.config/sway/scripts/swayidle_dpms.sh
+}
+
+profile {
+	output "Dell Inc. DELL P3223QE 21QX5P3" mode 3840x2160@60Hz position 0,0 enable
 	exec ~/.config/sway/scripts/swayidle_dpms.sh
 }
 

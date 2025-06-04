@@ -33,6 +33,17 @@ let
     };
     meta.homepage = "https://github.com/ledger/vim-ledger/";
   };
+  coqtail-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "Coqtail";
+    version = "2025-05-15";
+    src = pkgs.fetchFromGitHub {
+      owner = "whonore";
+      repo = "Coqtail";
+      rev = "262e4cf3fe6a6564e536efb631ab9dd6994ebcd9";
+      sha256 = "sha256-M0IRi8osJ5oykgbbITYaQJIp1hZGldbX0c+ZPxaBUJI=";
+    };
+    meta.homepage = "https://github.com/ledger/vim-ledger/";
+  };
   calendar-nvim = pkgs.vimUtils.buildVimPlugin {
     pname = "calendar-nvim";
     version = "2024-07-23";
@@ -416,6 +427,7 @@ in {
               require('calendar')
             '';
           }
+          coqtail-nvim
         ] ++ lib.lists.optionals cfg.nvim-lsps [
           ltex-ls-nvim
           nvim-jdtls
