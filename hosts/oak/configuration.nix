@@ -100,7 +100,7 @@
     mailserver.enable = true;
     matrix = {
       enable = true;
-      turn.enable = false;
+      turn = false;
       bridges.whatsapp = true;
       bridges.signal = true;
     };
