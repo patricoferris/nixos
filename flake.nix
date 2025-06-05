@@ -29,7 +29,6 @@
             # follow stable nixpkgs config
             config = nixpkgsConfig;
           };
-          russ = prev.callPackage ./pkgs/russ.nix { };
           lima = (prev.callPackage
             "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
               sigtool = prev.darwin.sigtool;
