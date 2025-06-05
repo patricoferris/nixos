@@ -90,7 +90,7 @@ in {
 
     fonts.packages = with pkgs; [
       ibm-plex
-      (nerdfonts.override { fonts = [ "DroidSansMono" ]; })
+      nerd-fonts.droid-sans-mono
       libertine
     ];
 

@@ -75,9 +75,9 @@ in {
           black
           ltex-ls
           jdt-language-server
-          nodejs_18
+          nodejs
           clang-tools
-          typst-lsp
+          tinymist
         ];
       extraLuaConfig = builtins.readFile ./init.lua
         + (if cfg.nvim-lsps then builtins.readFile ./lsp.lua else "");

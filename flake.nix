@@ -1,21 +1,16 @@
 {
   inputs = {
-    nixpkgs-compat.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-neovim.url =
-      "github:nixos/nixpkgs/a76212122970925d09aa2021a93e00d359e631dd";
     eilean.url = "github:RyanGibb/eilean-nix/main";
     eilean.inputs.nixpkgs.follows = "nixpkgs";
     eon.url = "github:RyanGibb/eon";
     eilean.inputs.eon.follows = "eon";
-    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     agenix.url = "github:ryantm/agenix";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    neovim.url =
-      "github:neovim/neovim/f40df63bdca33d343cada6ceaafbc8b765ed7cc6?dir=contrib";
     rss_to_mail.url = "github:Julow/rss_to_mail";
     rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
     sherlorocq.url = "github:patricoferris/sherlorocq";
@@ -24,17 +19,11 @@
       "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-compat, nixpkgs-unstable, nixpkgs-neovim
-    , eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, nur, ...
+  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, nur, ...
     }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig: [
         (final: prev: {
-          overlay-compat = import nixpkgs-compat {
-            inherit system;
-            # follow stable nixpkgs config
-            config = nixpkgsConfig;
-          };
           overlay-unstable = import nixpkgs-unstable {
             inherit system;
             # follow stable nixpkgs config
@@ -63,13 +52,10 @@
                   '';
                 });
             });
-          mautrix-whatsapp = final.overlay-compat.mautrix-whatsapp;
           agenix = agenix.packages.${system}.default;
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
           isync = prev.isync.override { withCyrusSaslXoauth2 = true; };
-          neovim-unwrapped =
-            (import nixpkgs-neovim { inherit system; }).neovim-unwrapped;
           opam = final.overlay-unstable.opam.overrideAttrs (_: rec {
             version = "2.4.0-alpha1";
             src = final.fetchurl {
@@ -91,7 +77,7 @@
             ./hosts/oak/configuration.nix
             ./modules/default.nix
             eilean.nixosModules.default
-            home-manager.nixosModule
+            home-manager.nixosModules.default
             agenix.nixosModules.default
             ({ config, ... }: {
               networking.hostName = "oak";
@@ -117,7 +103,7 @@
             ./hosts/maple/configuration.nix
             ./modules/default.nix
             eilean.nixosModules.default
-            home-manager.nixosModule
+            home-manager.nixosModules.default
             agenix.nixosModules.default
             ({ config, ... }: {
               networking.hostName = "maple";

@@ -20,6 +20,12 @@
     sherlorocq.enable = true;
   };
 
+  home-manager.users.${config.custom.username} = {
+    custom = {
+      machineColour = "magenta";
+    };
+  };
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   environment.systemPackages = with pkgs; [ git agenix ];
