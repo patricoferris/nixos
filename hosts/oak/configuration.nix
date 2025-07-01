@@ -227,9 +227,6 @@
       passwordFile = config.age.secrets.email-patrick.path;
       catchAll = [ "${config.networking.domain}" ];
     };
-    "system@${config.networking.domain}" = {
-      aliases = [ "nas@${config.networking.domain}" ];
-    };
   };
 
   services.rss_to_mail = {

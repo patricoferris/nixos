@@ -12,7 +12,6 @@
     agenix.url = "github:ryantm/agenix";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     rss_to_mail.url = "github:Julow/rss_to_mail";
-    rss_to_mail.inputs.nixpkgs.follows = "nixpkgs";
     sherlorocq.url = "github:patricoferris/sherlorocq";
     sherlorocq.inputs.nixpkgs.follows = "nixpkgs";
     nur.url =

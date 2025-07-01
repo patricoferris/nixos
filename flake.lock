@@ -90,11 +90,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1748602432,
-        "narHash": "sha256-nIPblVmWZDuM+7KlBgqFC+lSiWvtOD7XwyO725NeBN8=",
+        "lastModified": 1749126044,
+        "narHash": "sha256-6WCQsN9LGqP0Wb3ji2LVN/R5P32vE4uDpa5PCktxLmI=",
         "owner": "RyanGibb",
         "repo": "eilean-nix",
-        "rev": "a5fb2e6cac42df7330846f6aae33ddf4a8c4af03",
+        "rev": "90104282fab53589c5bce81ced23943acb7ae150",
         "type": "github"
       },
       "original": {
@@ -523,6 +523,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1748995628,
+        "narHash": "sha256-bFufQGSAEYQgjtc4wMrobS5HWN0hDP+ZX+zthYcml9U=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "8eb3b6a2366a7095939cd22f0dc0e9991313294b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -829,9 +845,7 @@
       "inputs": {
         "flake-utils": "flake-utils_2",
         "mirage-opam-overlays": "mirage-opam-overlays_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": "nixpkgs_5",
         "opam-nix": "opam-nix_2",
         "opam-overlays": "opam-overlays_2",
         "opam-repository": "opam-repository_2"
