@@ -61,7 +61,7 @@ in
   config = {
     programs.home-manager.enable = true;
 
-    home.packages = with pkgs; [ fzf opam graphviz sqlite gmp jq htop tmux-sessionizer ];
+    home.packages = with pkgs; [ fzf opam graphviz sqlite gmp jq htop tmux-sessionizer difftastic ];
 
     nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
 

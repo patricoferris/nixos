@@ -56,10 +56,10 @@
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
           isync = prev.isync.override { withCyrusSaslXoauth2 = true; };
           opam = final.overlay-unstable.opam.overrideAttrs (_: rec {
-            version = "2.4.0-alpha1";
+            version = "2.4.0-rc1";
             src = final.fetchurl {
               url = "https://github.com/ocaml/opam/releases/download/${version}/opam-full-${version}.tar.gz";
-              sha256 = "sha256-kRGh8K5sMvmbJtSAEEPIOsim8uUUhrw11I+vVd/nnx4=";
+              sha256 = "sha256-9ki9GlgwK9spp4E0HTdlJxZ3lAHHczuyPy/ALnId+U8=";
             };
             patches = [ ./pkgs/opam-shebangs.patch ];
           });
