@@ -16,6 +16,7 @@
     homeManager.enable = true;
     patrick-website.enable = true;
     graft-website.enable = true;
+    shelter-website.enable = true;
     deskrejection-website.enable = true;
     hedgedoc.enable = true;
     sherlorocq.enable = true;

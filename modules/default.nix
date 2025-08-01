@@ -6,6 +6,7 @@ in {
     ./home-manager.nix
     ./patrick-website.nix
     ./graft-website.nix
+    ./shelter-website.nix
     ./desk-rejection-website.nix
     ./rss_to_mail.nix
     ./hedgedoc.nix
