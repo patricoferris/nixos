@@ -39,7 +39,7 @@ in {
       sessionVariables = {
         # evince workaround
         GTK_THEME = "Gruvbox-Dark";
-        WALLPAPER = let wallpaper = ./wallpaper.jpg;
+        WALLPAPER = let wallpaper = ./wallpaper2.jpg;
         in pkgs.runCommand (builtins.baseNameOf wallpaper) { }
         "cp ${wallpaper} $out";
         TERMINAL = "alacritty";
