@@ -140,7 +140,8 @@ in {
       configFile = {
         "Thunar/uca.xml".source = ./thunar.xml;
         "fontconfig/fonts.conf".source = ./fonts.conf;
-        "alacritty.toml".source = ./alacritty.toml;
+        "alacritty-dark.toml".source = ./alacritty-dark.toml;
+        "alacritty-light.toml".source = ./alacritty-light.toml;
         "Element/config.json".source = ./element.json;
         "swappy/config".text = ''
           [Default]

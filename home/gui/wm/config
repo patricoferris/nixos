@@ -4,6 +4,7 @@ set $mod Mod4
 set $alt Mod1
 
 set $term alacritty -e tmux
+set $term_light alacritty --config-file=$HOME/.config/alacritty-light.toml -e tmux
 set $browser exec firefox
 
 set $SCRIPT_DIR $HOME/.config/@wm@/scripts

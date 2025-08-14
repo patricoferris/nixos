@@ -389,3 +389,5 @@ bindsym $mod+Control+semicolon exec $SCRIPT_DIR/wifi.sh
 bindsym $mod+p exec @displays@
 
 focus_on_window_activation smart
+
+bindsym $mod+Shift+s exec $SCRIPT_DIR/theme.sh
