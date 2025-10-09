@@ -206,6 +206,11 @@ in {
             create = "both";
             expunge = "both";
             remove = "both";
+            extraConfig = {
+              account = {
+                AuthMechs = "LOGIN";
+              };
+            };
           };
           msmtp = { enable = true; };
           aerc = {

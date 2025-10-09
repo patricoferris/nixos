@@ -34,6 +34,10 @@
     };
   };
 
+  # For Plan 9 Fun! 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "patrick" ];
+
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -77,7 +81,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ nheko nixd nixfmt-rfc-style ];
+  environment.systemPackages = with pkgs; [ nheko nixd nixfmt-rfc-style asdbctl ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

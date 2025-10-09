@@ -100,6 +100,7 @@
           modules = [
             ./hosts/maple/configuration.nix
             ./modules/default.nix
+            ./modules/asdbctl.nix
             eilean.nixosModules.default
             home-manager.nixosModules.default
             agenix.nixosModules.default
