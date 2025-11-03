@@ -16,6 +16,7 @@
   # ZFS modprobe support
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
+  boot.zfs.allowHibernation = true;
   networking.hostId = "b2bd1c28";
 
   custom = {
