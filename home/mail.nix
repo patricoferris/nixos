@@ -52,6 +52,7 @@ in {
         extraConfig = {
           general.unsafe-accounts-conf = true;
           general.default-save-path = "~/downloads";
+          general.pgp-provider = "gpg";
           ui.mouse-enabled = true;
           compose.address-book-cmd = "${address-book}/bin/address-book '%s'";
           compose.file-picker-cmd =
