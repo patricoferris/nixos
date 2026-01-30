@@ -1,12 +1,12 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     eilean.url = "github:RyanGibb/eilean-nix/main";
     eilean.inputs.nixpkgs.follows = "nixpkgs";
     eon.url = "github:RyanGibb/eon";
     eilean.inputs.eon.follows = "eon";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     agenix.url = "github:ryantm/agenix";
@@ -54,14 +54,6 @@
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
           isync = prev.isync.override { withCyrusSaslXoauth2 = true; };
-          opam = final.overlay-unstable.opam.overrideAttrs (_: rec {
-            version = "2.4.0-rc1";
-            src = final.fetchurl {
-              url = "https://github.com/ocaml/opam/releases/download/${version}/opam-full-${version}.tar.gz";
-              sha256 = "sha256-9ki9GlgwK9spp4E0HTdlJxZ3lAHHczuyPy/ALnId+U8=";
-            };
-            patches = [ ./pkgs/opam-shebangs.patch ];
-          });
         })
         nur.overlays.default
       ];

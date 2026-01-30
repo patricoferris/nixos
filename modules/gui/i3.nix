@@ -1,23 +1,31 @@
-{ pkgs, config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.custom.gui;
-in {
+let
+  cfg = config.custom.gui;
+in
+{
   options.custom.gui.i3 = lib.mkEnableOption "i3";
 
   config = lib.mkIf cfg.i3 {
-    home-manager.users.${config.custom.username} = { config, ... }: {
-      config.custom.gui.i3.enable = true;
-    };
+    home-manager.users.${config.custom.username} =
+      { config, ... }:
+      {
+        config.custom.gui.i3.enable = true;
+      };
 
-    #services.displayManager.lightdm.enable = true;
-    services.displayManager.defaultSession = "none+i3";
+    services.displayManager.ly.enable = true;
     services.xserver = {
       enable = true;
       windowManager.i3.enable = true;
     };
 
     environment.systemPackages = with pkgs; [
-      i3-gaps
+      i3
       xorg.xrandr
       arandr
       xss-lock
@@ -34,7 +42,6 @@ in {
       xf86_input_wacom
     ];
 
-    # TODO read this
     # https://github.com/flatpak/xdg-desktop-portal/blob/1.18.1/doc/portals.conf.rst.in
     xdg.portal = {
       enable = true;

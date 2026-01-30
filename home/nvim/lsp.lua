@@ -39,28 +39,18 @@ Capabilities = vim.tbl_deep_extend('force',
 )
 Capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
-local lspconfig = require('lspconfig')
--- local configs = require('lspconfig.configs')
--- configs.mlsp = {
---   default_config = { 
--- 	  cmd = { "/home/patrick/.opam/vpnkit/bin/mlsp"  },
---       filetypes = { "markdown" },
--- 	  root_dir = vim.fn.getcwd(),
--- 	  settings = {}
---   }
--- }
---
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'nixd', 'ocamllsp', 'clangd', 'rust_analyzer', 'pyright', 'gopls', 'tinymist', 'hls', 'coq_lsp' }
+local servers = { 'nixd', 'ocamllsp', 'clangd', 'pyright', 'tinymist', 'coq_lsp' }
 -- 'mlsp' }
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup {
+	vim.lsp.config(lsp, {
 		on_attach = On_attach,
 		capabilities = Capabilities,
-	}
+	})
+    vim.lsp.enable(lsp)
 end
 
-lspconfig['lua_ls'].setup {
+vim.lsp.config('lua_ls', {
 	on_attach = On_attach,
 	capabilities = Capabilities,
 	settings = {
@@ -84,13 +74,13 @@ lspconfig['lua_ls'].setup {
 			},
 		},
 	},
-}
+})
+vim.lsp.enable('lua_ls')
 
 -- wrapper around lspconfig['ltex-ls'] with support for hide false positive
-require('ltex-ls').setup {
+vim.lsp.config('ltex', {
 	on_attach = On_attach,
 	capabilities = Capabilities,
-	use_spellfile = false,
 	filetypes = { 'markdown', 'latex', 'tex', 'bib', 'plaintext', 'mail', 'gitcommit' },
 	settings = {
 		ltex = {
@@ -105,7 +95,8 @@ require('ltex-ls').setup {
 			},
 		},
 	},
-}
+})
+vim.lsp.enable('ltex')
 
 -- vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 
