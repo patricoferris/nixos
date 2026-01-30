@@ -7,6 +7,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./backup.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -55,12 +56,14 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.hardware.bolt.enable = true;
+
   services.gnome.gnome-keyring.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = rec {

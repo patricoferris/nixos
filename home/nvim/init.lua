@@ -94,6 +94,8 @@ key_mapper('t', '<Esc>', '<C-\\><C-n>')
 
 key_mapper('n', '<leader>id', [[<Cmd>lua vim.api.nvim_put({vim.fn.strftime('%Y-%m-%d')}, 'c', true, true)<CR>]],
 	'insert date')
+key_mapper('n', '<leader>jd', [[<Cmd>lua vim.api.nvim_put({vim.fn.strftime('%Y-%m-%d %H:%M:%S')}, 'c', true, true)<CR>]],
+	'insert date')
 
 key_mapper('n', '!', ':term ', 'terminal')
 

@@ -75,11 +75,11 @@ in {
       # Geospatial
       qgis
       # Libreoffice and dictionaries
-      libreoffice-qt
-      hunspell
-      hunspellDicts.en_US
-      hunspellDicts.en_GB-ise
-      hunspellDicts.fr-moderne
+      # libreoffice-qt
+      # hunspell
+      # hunspellDicts.en_US
+      # hunspellDicts.en_GB-ise
+      # hunspellDicts.fr-moderne
     ];
 
     nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
