@@ -25,6 +25,7 @@
     gui.i3 = true;
     gui.sway = true;
     homeManager.enable = true;
+    workstation = true;
   };
   security.acme-eon.acceptTerms = true;
 
@@ -45,9 +46,6 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable =
     true; # Easiest to use and most distros use this by default.
-
-  # Set your time zone.
-  time.timeZone = "Europe/London";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

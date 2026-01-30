@@ -17,6 +17,7 @@ in {
     ./gui/i3.nix
     ./gui/kde.nix
     ./gui/sway.nix
+    ./workstation.nix
   ];
 
   options.custom = {
