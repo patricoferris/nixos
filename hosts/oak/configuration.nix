@@ -10,6 +10,13 @@
     efiSupport = true;
     useOSProber = true;
   };
+  
+  # ZFS modprobe support
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+  boot.zfs.extraPools = [ "spruce" ];
+
+  networking.hostId = "839040b8";
 
   custom = {
     enable = true;
@@ -17,6 +24,7 @@
     patrick-website.enable = true;
     graft-website.enable = true;
     shelter-website.enable = true;
+    dispatch-website.enable = true;
     deskrejection-website.enable = true;
     hedgedoc.enable = true;
     sherlorocq.enable = true;
@@ -65,6 +73,26 @@
     enable = true;
     settings.PasswordAuthentication = false;
   };
+
+  # services.immich = {
+  #   enable = true;
+  #   mediaLocation = "/spruce/immich";
+  # };
+
+  # services.nginx = {
+  #   virtualHosts = {
+  #     "photos.sirref.org" = {
+  #       onlySSL = true;
+  #       enableACME = true;
+  #       locations."/" = {
+  #         proxyPass = with config.services.immich; ''
+  #           http://${host}:${builtins.toString port}
+  #         '';
+  #         proxyWebsockets = true;
+  #       };
+  #     };
+  #   };
+  # };
 
   security.acme.acceptTerms = true;
   security.acme-eon.acceptTerms = true;
@@ -128,6 +156,9 @@
     # headscale.enable = true;
   };
 
+  # MATRIX PLEASE BE OKAY?!
+  services.postgresql.package = pkgs.postgresql_13;
+
   age.secrets.eon-capnp = {
     file = ../../secrets/eon-capnp.age;
     mode = "770";
@@ -181,6 +212,11 @@
           type = "TXT";
           value =
             "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
+        }
+        {
+          name = "photos.${config.networking.domain}.";
+          type = "CNAME";
+          value = "vps";
         }
       ];
     };

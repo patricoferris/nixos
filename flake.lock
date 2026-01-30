@@ -90,11 +90,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1749126044,
-        "narHash": "sha256-6WCQsN9LGqP0Wb3ji2LVN/R5P32vE4uDpa5PCktxLmI=",
+        "lastModified": 1754127634,
+        "narHash": "sha256-7JtM75ovFRa6GYAXVno6bR4bVafntdYqXvL7SIg9znA=",
         "owner": "RyanGibb",
         "repo": "eilean-nix",
-        "rev": "90104282fab53589c5bce81ced23943acb7ae150",
+        "rev": "4e926bf59e0e9bcf9d87e0f88fe0160304e6ebec",
         "type": "github"
       },
       "original": {
@@ -462,11 +462,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1748929857,
-        "narHash": "sha256-lcZQ8RhsmhsK8u7LIFsJhsLh/pzR9yZ8yqpTzyGdj+Q=",
+        "lastModified": 1753939845,
+        "narHash": "sha256-K2ViRJfdVGE8tpJejs8Qpvvejks1+A4GQej/lBk5y7I=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "c2a03962b8e24e669fb37b7df10e7c79531ff1a4",
+        "rev": "94def634a20494ee057c76998843c015909d6311",
         "type": "github"
       },
       "original": {

@@ -7,6 +7,7 @@ in {
     ./patrick-website.nix
     ./graft-website.nix
     ./shelter-website.nix
+    ./dispatch-website.nix
     ./desk-rejection-website.nix
     ./rss_to_mail.nix
     ./hedgedoc.nix
