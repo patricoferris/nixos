@@ -82,6 +82,13 @@ in {
       # hunspellDicts.fr-moderne
     ];
 
+    home.sessionVariables = {
+      EDITOR = "nvim";
+      NIX_AUTO_RUN = "y";
+      NIX_AUTO_RUN_INTERACTIVE = "y";
+      GOPATH = "$HOME/.go";
+    };
+
     nix = { settings.experimental-features = [ "nix-command" "flakes" ]; };
 
     programs.tmux = {
