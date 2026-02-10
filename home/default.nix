@@ -63,6 +63,7 @@ in {
     home.packages = with pkgs; [
       fzf
       opam
+      msh
       graphviz
       sqlite
       gmp
@@ -140,7 +141,7 @@ in {
 
     home.shellAliases = {
       ls = "ls -p --color=auto";
-      nix-shell = "nix-shell --command zsh";
+      nix-shell = "nix-shell --command msh";
     };
 
     programs.gpg = {

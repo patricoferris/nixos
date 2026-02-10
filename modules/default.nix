@@ -56,7 +56,7 @@ in {
 
     users = {
       users.${cfg.username} = {
-        shell = pkgs.zsh;
+        shell = pkgs.msh;
         ignoreShellProgramCheck = true;
       };
     };

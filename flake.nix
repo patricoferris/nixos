@@ -6,6 +6,8 @@
     eilean.inputs.nixpkgs.follows = "nixpkgs";
     eon.url = "github:RyanGibb/eon";
     eilean.inputs.eon.follows = "eon";
+    msh.url = "git+https://tangled.org/patrick.sirref.org/merry?submodules=true";
+    msh.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
@@ -18,7 +20,7 @@
       "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, nur, ...
+  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, nur, msh, ...
     }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig: [
@@ -28,6 +30,7 @@
             # follow stable nixpkgs config
             config = nixpkgsConfig;
           };
+          msh = msh.packages.${system}.default;
           lima = (prev.callPackage
             "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
               sigtool = prev.darwin.sigtool;
