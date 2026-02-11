@@ -1,5 +1,4 @@
 { pkgs, config, lib, ... }:
-
 {
   imports = [ ./hardware-configuration.nix ./networking.nix ];
 
@@ -38,7 +37,39 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  environment.systemPackages = with pkgs; [ git agenix ];
+  environment.systemPackages = with pkgs; [ git agenix
+    #  (
+    #   let
+    #     # XXX specify the postgresql package you'd like to upgrade to.
+    #     # Do not forget to list the extensions you need.
+    #     newPostgres = pkgs.postgresql_16.withPackages (pp: [
+    #       # pp.plv8
+    #     ]);
+    #     cfg = config.services.postgresql;
+    #   in
+    #   pkgs.writeScriptBin "upgrade-pg-cluster" ''
+    #     set -eux
+    #     # XXX it's perhaps advisable to stop all services that depend on postgresql
+    #     systemctl stop matrix-synapse.service
+    #     systemctl stop postgresql
+    #
+    #     export NEWDATA="/var/lib/postgresql/${newPostgres.psqlSchema}"
+    #     export NEWBIN="${newPostgres}/bin"
+    #
+    #     export OLDDATA="/var/lib/postgresql/13"
+    #     export OLDBIN="${cfg.finalPackage}/bin"
+    #
+    #     install -d -m 0700 -o postgres -g postgres "$NEWDATA"
+    #     cd "$NEWDATA"
+    #     sudo -u postgres "$NEWBIN/initdb" -D "$NEWDATA" ${lib.escapeShellArgs cfg.initdbArgs}
+    #
+    #     sudo -u postgres "$NEWBIN/pg_upgrade" \
+    #       --old-datadir "$OLDDATA" --new-datadir "$NEWDATA" \
+    #       --old-bindir "$OLDBIN" --new-bindir "$NEWBIN" \
+    #       "$@"
+    #   ''
+    # )
+  ];
 
   programs.bash.promptInit = ''
     PS1='\u@\h:\w \$ '
@@ -156,7 +187,7 @@
   };
 
   # MATRIX PLEASE BE OKAY?!
-  services.postgresql.package = pkgs.postgresql_13;
+  services.postgresql.package = pkgs.postgresql_16;
 
   age.secrets.eon-capnp = {
     file = ../../secrets/eon-capnp.age;
@@ -252,6 +283,7 @@
   age.secrets.email-system.file = ../../secrets/email-system.age;
   eilean.mailserver.systemAccountPasswordFile =
     config.age.secrets.email-system.path;
+  mailserver.stateVersion = lib.mkDefault 3;
   mailserver.loginAccounts = {
     "${config.eilean.username}@${config.networking.domain}" = {
       passwordFile = config.age.secrets.email-patrick.path;
