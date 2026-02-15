@@ -462,11 +462,11 @@
         "opam-repository": "opam-repository_2"
       },
       "locked": {
-        "lastModified": 1770727275,
-        "narHash": "sha256-M5qPugaW8uC7+EBxm5eKUVgbe3M0wyiDL+GgmeKWFnU=",
+        "lastModified": 1770829665,
+        "narHash": "sha256-F7ntdV8O2WbhBoE/B39jl4NokE9eKL/VGAwY1LO2hVo=",
         "ref": "refs/heads/main",
-        "rev": "79b305439217d230eaa9f35e497ec4bb8e6df274",
-        "revCount": 82,
+        "rev": "7379e014437116bac62e75d9db5c2ab0bf7d68ba",
+        "revCount": 87,
         "submodules": false,
         "type": "git",
         "url": "https://tangled.org/patrick.sirref.org/merry"
