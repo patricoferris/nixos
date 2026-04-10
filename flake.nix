@@ -6,7 +6,7 @@
     eilean.inputs.nixpkgs.follows = "nixpkgs";
     eon.url = "github:RyanGibb/eon";
     eilean.inputs.eon.follows = "eon";
-    msh.url = "git+https://tangled.org/patrick.sirref.org/merry?submodules=true";
+    msh.url = "git+https://tangled.org/patrick.sirref.org/merry?ref=wip";
     msh.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";

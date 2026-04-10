@@ -52,7 +52,25 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [ gutenprint gutenprint-bin cnijfilter2 ];
+  };
+
+  hardware.printers.ensurePrinters = [
+  {
+    name = "Canon_MX395";
+    location = "Home";
+    deviceUri = "usb://Canon/MX390%20series?serial=00C90F&interface=1";
+    model = "canonmx490.ppd";
+    ppdOptions = {
+      PageSize = "A4";
+    };
+  }
+];
+
+  # iOS 
+  services.usbmuxd.enable = true;
 
   services.hardware.bolt.enable = true;
 
@@ -83,7 +101,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ nheko nixd nixfmt-rfc-style asdbctl ];
+  environment.systemPackages = with pkgs; [ nheko element-desktop nixd nixfmt-rfc-style asdbctl ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
