@@ -13,7 +13,7 @@
   # ZFS modprobe support
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
-  boot.zfs.extraPools = [ "spruce" ];
+  boot.zfs.extraPools = [ ];
 
   networking.hostId = "839040b8";
 
