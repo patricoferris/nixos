@@ -33,6 +33,7 @@
     custom = {
       machineColour = "magenta";
     };
+    programs.git.settings.safe.directory = "/var/lib/git/repos/*";
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -78,7 +79,7 @@
   users.users = rec {
     patrick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "git" ]; # Enable ‘sudo’ for the user.
       initialHashedPassword = root.initialHashedPassword;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
@@ -98,6 +99,15 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
     };
+    git = {
+      isSystemUser = true;
+      description = "git user";
+      home = "/var/lib/git/repos";
+      shell = "${pkgs.git}/bin/git-shell";
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
+      ];
+    };
   };
 
   services.openssh = {
@@ -105,25 +115,63 @@
     settings.PasswordAuthentication = false;
   };
 
-  # services.immich = {
-  #   enable = true;
-  #   mediaLocation = "/spruce/immich";
-  # };
+  services.sshguard = {
+    enable = true;
+  };
 
-  # services.nginx = {
-  #   virtualHosts = {
-  #     "photos.sirref.org" = {
-  #       onlySSL = true;
-  #       enableACME = true;
-  #       locations."/" = {
-  #         proxyPass = with config.services.immich; ''
-  #           http://${host}:${builtins.toString port}
-  #         '';
-  #         proxyWebsockets = true;
-  #       };
-  #     };
-  #   };
-  # };
+  # CGit config borrowed from Ryan 
+  services.cgit."git.sirref.org" = {
+    enable = true;
+    user = "git";
+    group = "git";
+    scanPath = "/var/lib/git/repos";
+    gitHttpBackend = {
+      enable = true;
+      checkExportOkFiles = false;
+    };
+    settings = {
+      root-title = "Sirref Git Repositories";
+      root-desc = "List of Sirref development repositories";
+      logo = "https://patrick.sirref.org/git-logo.JPG";
+      enable-index-owner = false;
+      enable-git-config = true;
+      clone-url = "https://git.sirref.org/$CGIT_REPO_URL";
+      branch-sort = "age";
+    };
+  };
+
+  services.nginx.virtualHosts."git.sirref.org" = {
+    forceSSL = true;
+    enableACME = true;
+    locations."= /robots.txt".extraConfig = ''
+      return 200 "User-agent: *\nContent-Usage: search=y, train-ai=n\nAllow: /\n\nUser-agent: Amazonbot\nDisallow: /\n\nUser-agent: Applebot-Extended\nDisallow: /\n\nUser-agent: Bytespider\nDisallow: /\n\nUser-agent: CCBot\nDisallow: /\n\nUser-agent: ClaudeBot\nDisallow: /\n\nUser-agent: Google-Extended\nDisallow: /\n\nUser-agent: GPTBot\nDisallow: /\n\nUser-agent: meta-externalagent\nDisallow: /\n";
+      default_type text/plain;
+    '';
+  };
+
+  # Git mirroring cron job
+  systemd.timers."git-mirror" = {
+    wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "5m";
+        OnUnitActiveSec = "5m";
+        Unit = "git-mirror.service";
+      };
+  };
+
+  systemd.services."git-mirror" = {
+    script = ''
+      set -eu
+      for repo in /var/lib/git/repos/*.git; do
+        echo "Mirroring $repo"
+        ${pkgs.git}/bin/git --git-dir $repo push --mirror "git@github.com:patricoferris/$(basename --suffix=".git" $repo)"
+      done
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
+  };
 
   security.acme.acceptTerms = true;
   security.acme-eon.acceptTerms = true;
@@ -242,6 +290,11 @@
           type = "TXT";
           value =
             "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
+        }
+        {
+          name = "git.${config.networking.domain}.";
+          type = "CNAME";
+          value = "vps";
         }
         {
           name = "photos.${config.networking.domain}.";
