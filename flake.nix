@@ -16,11 +16,15 @@
     rss_to_mail.url = "github:Julow/rss_to_mail";
     sherlorocq.url = "github:patricoferris/sherlorocq";
     sherlorocq.inputs.nixpkgs.follows = "nixpkgs";
+    ocaml-ci-service.url = "github:patricoferris/ocaml-ci?ref=local";
+    ocaml-ci-service.inputs.nixpkgs.follows = "nixpkgs";
+    solver-service.url = "github:patricoferris/solver-service?ref=filter-deps";
+    solver-service.inputs.nixpkgs.follows = "nixpkgs";
     nur.url =
       "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, nur, msh, ...
+  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, ocaml-ci-service, solver-service, nur, msh, ...
     }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig: [
@@ -56,6 +60,8 @@
           agenix = agenix.packages.${system}.default;
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
+          ocaml-ci-service = ocaml-ci-service.packages.${system}.default;
+          solver-service = solver-service.packages.${system}.default;
           isync = prev.isync.override { withCyrusSaslXoauth2 = true; };
         })
         nur.overlays.default

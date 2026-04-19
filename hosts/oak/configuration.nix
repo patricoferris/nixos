@@ -27,6 +27,7 @@
     deskrejection-website.enable = true;
     hedgedoc.enable = true;
     sherlorocq.enable = true;
+    ocaml-ci-local.enable = true;
   };
 
   home-manager.users.${config.custom.username} = {
@@ -79,20 +80,21 @@
   users.users = rec {
     patrick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "git" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "git" "docker" ]; # Enable ‘sudo’ for the user.
       initialHashedPassword = root.initialHashedPassword;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
     };
-    technical_support = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILpJ2Y1tRU37NQBy6sP+Cz/iNiJ6ZGqlIDeBR5bx+oEl ryan@freumh.org"
-      ];
-    };
+    # technical_support = {
+    #   isNormalUser = true;
+    #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    #   openssh.authorizedKeys.keys = [
+    #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILpJ2Y1tRU37NQBy6sP+Cz/iNiJ6ZGqlIDeBR5bx+oEl ryan@freumh.org"
+    #   ];
+    # };
     root = {
+      extraGroups = [ "git" "docker" ]; # Enable ‘sudo’ for the user.
       initialHashedPassword =
         "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
       openssh.authorizedKeys.keys = [
@@ -101,6 +103,7 @@
     };
     git = {
       isSystemUser = true;
+      extraGroups = [ "git" ];
       description = "git user";
       home = "/var/lib/git/repos";
       shell = "${pkgs.git}/bin/git-shell";
@@ -124,7 +127,9 @@
     enable = true;
     user = "git";
     group = "git";
-    scanPath = "/var/lib/git/repos";
+    # We use the cgitrc file below for better control.
+    # But we have to add a scan path...
+    scanPath = "/var/lib/empty";
     gitHttpBackend = {
       enable = true;
       checkExportOkFiles = false;
@@ -138,7 +143,30 @@
       clone-url = "https://git.sirref.org/$CGIT_REPO_URL";
       branch-sort = "age";
     };
+    extraConfig = ''
+    section=Codecs
+
+    repo.url=ocaml-bibtex
+    repo.path=/var/lib/git/repos/ocaml-bibtex/.git
+    repo.desc=A pure OCaml codec for Bibtex
+
+    section=Shells
+
+    repo.url=merry
+    repo.path=/var/lib/git/repos/merry/.git
+    repo.desc=An OCaml library for building Shells
+
+    repo.url=bruit
+    repo.path=/var/lib/git/repos/bruit/.git
+    repo.desc=A pure OCaml port of linenoise (a readline alternative)
+
+    repo.url=shelter
+    repo.path=/var/lib/git/repos/shelter/.git
+    repo.desc=A time-travelling shell
+    '';
   };
+  
+  virtualisation.docker.enable = true;
 
   services.nginx.virtualHosts."git.sirref.org" = {
     forceSSL = true;

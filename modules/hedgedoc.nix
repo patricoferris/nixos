@@ -29,6 +29,7 @@ in {
         port = 3333;
         useSSL = false;
         protocolUseSSL = true;
+        allowEmailRegister = false;
       };
     };
 

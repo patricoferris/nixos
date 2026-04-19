@@ -13,6 +13,7 @@ in {
     ./hedgedoc.nix
     ./scripts.nix
     ./sherlorocq.nix
+    ./ocaml-ci-local.nix
     ./gui/default.nix
     ./gui/i3.nix
     ./gui/kde.nix
