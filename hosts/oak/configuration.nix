@@ -28,6 +28,7 @@
     hedgedoc.enable = true;
     sherlorocq.enable = true;
     ocaml-ci-local.enable = true;
+    music.enable = true;
   };
 
   home-manager.users.${config.custom.username} = {

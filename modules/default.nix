@@ -11,6 +11,7 @@ in {
     ./desk-rejection-website.nix
     ./rss_to_mail.nix
     ./hedgedoc.nix
+    ./music.nix
     ./scripts.nix
     ./sherlorocq.nix
     ./ocaml-ci-local.nix
