@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.custom.sherlorocq;
-in {
+let
+  cfg = config.custom.sherlorocq;
+in
+{
   options.custom.sherlorocq.enable = lib.mkEnableOption "sherlorocq";
 
   config = lib.mkIf cfg.enable {
@@ -18,16 +25,17 @@ in {
       description = "sherlorocq";
       wantedBy = [ "default.target" ];
       serviceConfig = {
-        ExecStart =
-          "${pkgs.sherlorocq}/bin/sherlorocq --static=/var/rocq/static /var/rocq/db";
+        ExecStart = "${pkgs.sherlorocq}/bin/sherlorocq --static=/var/rocq/static /var/rocq/db";
         Restart = "on-failure";
       };
     };
 
-    eilean.services.dns.zones.${config.networking.domain}.records = [{
-      name = "sherlorocq.${config.networking.domain}.";
-      type = "CNAME";
-      value = "vps";
-    }];
+    eilean.services.dns.zones.${config.networking.domain}.records = [
+      {
+        name = "sherlorocq.${config.networking.domain}.";
+        type = "CNAME";
+        value = "vps";
+      }
+    ];
   };
 }

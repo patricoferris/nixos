@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.custom.hedgedoc;
-in {
+let
+  cfg = config.custom.hedgedoc;
+in
+{
   options.custom.hedgedoc.enable = lib.mkEnableOption "hedgedoc";
 
   config = lib.mkIf cfg.enable {
@@ -33,10 +35,12 @@ in {
       };
     };
 
-    eilean.services.dns.zones.${config.networking.domain}.records = [{
-      name = "notes.${config.networking.domain}.";
-      type = "CNAME";
-      value = "vps";
-    }];
+    eilean.services.dns.zones.${config.networking.domain}.records = [
+      {
+        name = "notes.${config.networking.domain}.";
+        type = "CNAME";
+        value = "vps";
+      }
+    ];
   };
 }

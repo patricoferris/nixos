@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.custom.graft-website;
-in {
+let
+  cfg = config.custom.graft-website;
+in
+{
   options.custom.graft-website.enable = lib.mkEnableOption "graft-website";
 
   config = lib.mkIf cfg.enable {

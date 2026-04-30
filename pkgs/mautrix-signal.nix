@@ -1,10 +1,16 @@
-{ lib, buildGoModule, fetchFromGitHub, olm, libsignal-ffi,
-# This option enables the use of an experimental pure-Go implementation of
-# the Olm protocol instead of libolm for end-to-end encryption. Using goolm
-# is not recommended by the mautrix developers, but they are interested in
-# people trying it out in non-production-critical environments and reporting
-# any issues they run into.
-withGoolm ? false, }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  olm,
+  libsignal-ffi,
+  # This option enables the use of an experimental pure-Go implementation of
+  # the Olm protocol instead of libolm for end-to-end encryption. Using goolm
+  # is not recommended by the mautrix developers, but they are interested in
+  # people trying it out in non-production-critical environments and reporting
+  # any issues they run into.
+  withGoolm ? false,
+}:
 
 buildGoModule rec {
   pname = "mautrix-signal";
@@ -32,7 +38,11 @@ buildGoModule rec {
     homepage = "https://github.com/mautrix/signal";
     description = "A Matrix-Signal puppeting bridge";
     license = licenses.agpl3Plus;
-    maintainers = with maintainers; [ expipiplus1 niklaskorz ma27 ];
+    maintainers = with maintainers; [
+      expipiplus1
+      niklaskorz
+      ma27
+    ];
     mainProgram = "mautrix-signal";
   };
 }

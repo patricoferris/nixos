@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 # Run rss_to_mail periodically for a list of users.
 #
@@ -17,7 +22,8 @@ let
 
   conf = config.services.rss_to_mail;
 
-in {
+in
+{
   options.services.rss_to_mail = with lib; {
     enable = mkEnableOption "rss_to_mail";
 
@@ -37,8 +43,7 @@ in {
         WorkingDirectory = "~";
         User = "%i";
         Environment = "CA_BUNDLE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-        ExecStart =
-          "${pkgs.rss_to_mail}/bin/rss_to_mail run /var/lib/feeds.sexp";
+        ExecStart = "${pkgs.rss_to_mail}/bin/rss_to_mail run /var/lib/feeds.sexp";
       };
     };
 

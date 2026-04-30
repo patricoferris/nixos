@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.custom.shelter-website;
-in {
+let
+  cfg = config.custom.shelter-website;
+in
+{
   options.custom.shelter-website.enable = lib.mkEnableOption "shelter-website";
 
   config = lib.mkIf cfg.enable {

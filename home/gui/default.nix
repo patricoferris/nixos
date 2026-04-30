@@ -1,8 +1,18 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
-let cfg = config.custom.gui;
-in {
-  imports = [ ./i3.nix ./sway.nix ];
+let
+  cfg = config.custom.gui;
+in
+{
+  imports = [
+    ./i3.nix
+    ./sway.nix
+  ];
 
   options.custom.gui.enable = lib.mkEnableOption "gui";
 
@@ -24,24 +34,28 @@ in {
     };
 
     home = {
-      packages = let
-        status = pkgs.stdenv.mkDerivation {
-          name = "status";
+      packages =
+        let
+          status = pkgs.stdenv.mkDerivation {
+            name = "status";
 
-          src = ../status;
+            src = ../status;
 
-          installPhase = ''
-            mkdir -p $out
-            cp -r * $out
-          '';
-        };
-      in [ status ];
+            installPhase = ''
+              mkdir -p $out
+              cp -r * $out
+            '';
+          };
+        in
+        [ status ];
       sessionVariables = {
         # evince workaround
         GTK_THEME = "Gruvbox-Dark";
-        WALLPAPER = let wallpaper = ./wallpaper2.jpg;
-        in pkgs.runCommand (builtins.baseNameOf wallpaper) { }
-        "cp ${wallpaper} $out";
+        WALLPAPER =
+          let
+            wallpaper = ./wallpaper2.jpg;
+          in
+          pkgs.runCommand (builtins.baseNameOf wallpaper) { } "cp ${wallpaper} $out";
         TERMINAL = "alacritty";
       };
       pointerCursor = {
@@ -71,70 +85,74 @@ in {
       };
     };
 
-    programs.firefox = let
-      settings = {
-        "browser.ctrlTab.recentlyUsedOrder" = false;
-        "browser.tabs.warnOnClose" = false;
-        "browser.toolbars.bookmarks.visibility" = "never";
+    programs.firefox =
+      let
+        settings = {
+          "browser.ctrlTab.recentlyUsedOrder" = false;
+          "browser.tabs.warnOnClose" = false;
+          "browser.toolbars.bookmarks.visibility" = "never";
 
-        # Only hide UI elements on F11 (i.e. don't go fullscreen, leave that to WM)
-        "full-screen-api.ignore-widgets" = true;
-        # Right click issue fix
-        "ui.context_menus.after_mouseup" = true;
+          # Only hide UI elements on F11 (i.e. don't go fullscreen, leave that to WM)
+          "full-screen-api.ignore-widgets" = true;
+          # Right click issue fix
+          "ui.context_menus.after_mouseup" = true;
 
-        # Use userChrome.css
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          # Use userChrome.css
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
-        "browser.shell.checkDefaultBrowser" = false;
+          "browser.shell.checkDefaultBrowser" = false;
 
-        # sync toolbar
-        "services.sync.prefs.sync.browser.uiCustomization.state" = true;
+          # sync toolbar
+          "services.sync.prefs.sync.browser.uiCustomization.state" = true;
 
-        "extensions.pocket.enabled" = false;
+          "extensions.pocket.enabled" = false;
 
-        "extensions.autoDisableScopes" = 0;
+          "extensions.autoDisableScopes" = 0;
+        };
+        userChrome = ''
+          #webrtcIndicator {
+            display: none;
+          }
+
+          /* Move find bar to top */
+          .browserContainer > findbar {
+            -moz-box-ordinal-group: 0;
+          }
+
+          #TabsToolbar
+          {
+              visibility: collapse;
+          }
+        '';
+        extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
+          auto-tab-discard
+          bitwarden
+          multi-account-containers
+          news-feed-eradicator
+          istilldontcareaboutcookies
+          leechblock-ng
+          # search-by-image
+          simple-translate
+          tree-style-tab
+          tridactyl
+          ublock-origin
+          zotero-connector
+        ];
+      in
+      {
+        enable = true;
+        profiles.default = { inherit settings userChrome extensions; };
+        profiles.secondary = {
+          inherit settings userChrome extensions;
+          id = 1;
+          isDefault = false;
+        };
+        package = (
+          pkgs.firefox.override {
+            nativeMessagingHosts = with pkgs; [ tridactyl-native ];
+          }
+        );
       };
-      userChrome = ''
-        #webrtcIndicator {
-          display: none;
-        }
-
-        /* Move find bar to top */
-        .browserContainer > findbar {
-          -moz-box-ordinal-group: 0;
-        }
-
-        #TabsToolbar
-        {
-            visibility: collapse;
-        }
-      '';
-      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-        auto-tab-discard
-        bitwarden
-        multi-account-containers
-        news-feed-eradicator
-        istilldontcareaboutcookies
-        leechblock-ng
-        # search-by-image
-        simple-translate
-        tree-style-tab
-        tridactyl
-        ublock-origin
-        zotero-connector
-      ];
-    in {
-      enable = true;
-      profiles.default = { inherit settings userChrome extensions; };
-      profiles.secondary = {
-        inherit settings userChrome extensions;
-        id = 1;
-        isDefault = false;
-      };
-      package = (pkgs.firefox.override {
-        nativeMessagingHosts = with pkgs; [ tridactyl-native ];
-      });
-    };
 
     xdg = {
       configFile = {

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   asdbctl = pkgs.rustPlatform.buildRustPackage {
@@ -14,11 +19,11 @@ let
 
     cargoSha256 = "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=";
   };
-in {
+in
+{
   options.asdbctl.enable = lib.mkEnableOption "Install asdbctl";
 
   config = lib.mkIf config.asdbctl.enable {
     environment.systemPackages = [ asdbctl ];
   };
 }
-

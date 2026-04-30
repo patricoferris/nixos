@@ -1,7 +1,15 @@
-{ pkgs, config, lib, agenix, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  agenix,
+  ...
+}:
 
-let cfg = config.custom;
-in {
+let
+  cfg = config.custom;
+in
+{
   imports = [
     ./home-manager.nix
     ./patrick-website.nix
@@ -30,44 +38,51 @@ in {
     };
   };
 
-  config = let nixPath = "/etc/nix-path";
-  in lib.mkIf cfg.enable {
-    console = {
-      font = "Lat2-Terminus16";
-      keyMap = "uk";
-    };
-    i18n.defaultLocale = "en_GB.UTF-8";
-
-    networking.domain = lib.mkDefault "sirref.org";
-
-    nix = {
-      settings = lib.mkMerge [{
-        experimental-features = [ "nix-command" "flakes" ];
-        auto-optimise-store = true;
-        trusted-users = [ cfg.username ];
-      }];
-      gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 30d";
+  config =
+    let
+      nixPath = "/etc/nix-path";
+    in
+    lib.mkIf cfg.enable {
+      console = {
+        font = "Lat2-Terminus16";
+        keyMap = "uk";
       };
-      # https://discourse.nixos.org/t/do-flakes-also-set-the-system-channel/19798/16
-      nixPath = [ "nixpkgs=${nixPath}" ];
-    };
-    systemd.tmpfiles.rules = [ "L+ ${nixPath} - - - - ${pkgs.path}" ];
+      i18n.defaultLocale = "en_GB.UTF-8";
 
-    users = {
-      users.${cfg.username} = {
-        shell = pkgs.msh;
-        ignoreShellProgramCheck = true;
+      networking.domain = lib.mkDefault "sirref.org";
+
+      nix = {
+        settings = lib.mkMerge [
+          {
+            experimental-features = [
+              "nix-command"
+              "flakes"
+            ];
+            auto-optimise-store = true;
+            trusted-users = [ cfg.username ];
+          }
+        ];
+        gc = {
+          automatic = true;
+          dates = "weekly";
+          options = "--delete-older-than 30d";
+        };
+        # https://discourse.nixos.org/t/do-flakes-also-set-the-system-channel/19798/16
+        nixPath = [ "nixpkgs=${nixPath}" ];
       };
-    };
+      systemd.tmpfiles.rules = [ "L+ ${nixPath} - - - - ${pkgs.path}" ];
 
-    environment.systemPackages = with pkgs; [
-      nix
-      git
-      agenix.packages.${system}.default
-    ];
-  };
+      users = {
+        users.${cfg.username} = {
+          shell = pkgs.msh;
+          ignoreShellProgramCheck = true;
+        };
+      };
+
+      environment.systemPackages = with pkgs; [
+        nix
+        git
+        agenix.packages.${system}.default
+      ];
+    };
 }
-

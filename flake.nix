@@ -20,11 +20,25 @@
     ocaml-ci-service.inputs.nixpkgs.follows = "nixpkgs";
     solver-service.url = "github:patricoferris/solver-service?ref=filter-deps";
     solver-service.inputs.nixpkgs.follows = "nixpkgs";
-    nur.url =
-      "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
+    nur.url = "github:nix-community/NUR/e9e77b7985ef9bdeca12a38523c63d47555cc89b";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, eilean, home-manager, darwin, agenix, rss_to_mail, sherlorocq, ocaml-ci-service, solver-service, nur, msh, ...
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      eilean,
+      home-manager,
+      darwin,
+      agenix,
+      rss_to_mail,
+      sherlorocq,
+      ocaml-ci-service,
+      solver-service,
+      nur,
+      msh,
+      ...
     }@inputs:
     let
       getSystemOverlays = system: nixpkgsConfig: [
@@ -35,28 +49,31 @@
             config = nixpkgsConfig;
           };
           msh = msh.packages.${system}.default;
-          lima = (prev.callPackage
-            "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
+          lima = (
+            prev.callPackage "${prev.path}/pkgs/applications/virtualization/lima/default.nix" {
               sigtool = prev.darwin.sigtool;
-              buildGoModule = args:
-                prev.buildGoModule (args // rec {
-                  version = "0.23.2";
-                  src = prev.fetchFromSourcehut {
-                    owner = "lima-vm";
-                    repo = "lima";
-                    rev = "74e2fda81b8d367a3bee3dcec92f2b83f575460b";
-                    sha256 =
-                      "sha256-rZZAIj7hWmRj9o0FRXN1kWMGNYQEd6YbshqYe+WUNeo=";
-                  };
-                  vendorHash =
-                    "sha256-DSv4U0Dg4zlbzN0Jsiw793z4zu0a+BmcGo9QQUrencE=";
-                  buildPhase = ''
-                    runHook preBuild
-                    make "VERSION=v${version}" binaries
-                    runHook postBuild
-                  '';
-                });
-            });
+              buildGoModule =
+                args:
+                prev.buildGoModule (
+                  args
+                  // rec {
+                    version = "0.23.2";
+                    src = prev.fetchFromSourcehut {
+                      owner = "lima-vm";
+                      repo = "lima";
+                      rev = "74e2fda81b8d367a3bee3dcec92f2b83f575460b";
+                      sha256 = "sha256-rZZAIj7hWmRj9o0FRXN1kWMGNYQEd6YbshqYe+WUNeo=";
+                    };
+                    vendorHash = "sha256-DSv4U0Dg4zlbzN0Jsiw793z4zu0a+BmcGo9QQUrencE=";
+                    buildPhase = ''
+                      runHook preBuild
+                      make "VERSION=v${version}" binaries
+                      runHook postBuild
+                    '';
+                  }
+                );
+            }
+          );
           agenix = agenix.packages.${system}.default;
           rss_to_mail = rss_to_mail.packages.${system}.rss_to_mail;
           sherlorocq = sherlorocq.packages.${system}.sherlorocq;
@@ -66,7 +83,8 @@
         })
         nur.overlays.default
       ];
-    in {
+    in
+    {
       nixosConfigurations = {
         oak = nixpkgs.lib.nixosSystem {
           system = null;
@@ -78,20 +96,21 @@
             eilean.nixosModules.default
             home-manager.nixosModules.default
             agenix.nixosModules.default
-            ({ config, ... }: {
-              networking.hostName = "oak";
-              # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
-              nix.registry.nixpkgs.flake = nixpkgs;
-              # record git revision (can be queried with `nixos-version --json)
-              system.configurationRevision =
-                nixpkgs.lib.mkIf (self ? rev) self.rev;
-              nixpkgs = {
-                config.allowUnfree = true;
-                config.permittedInsecurePackages = [ "olm-3.2.16" ];
-                overlays = getSystemOverlays config.nixpkgs.hostPlatform.system
-                  config.nixpkgs.config;
-              };
-            })
+            (
+              { config, ... }:
+              {
+                networking.hostName = "oak";
+                # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
+                nix.registry.nixpkgs.flake = nixpkgs;
+                # record git revision (can be queried with `nixos-version --json)
+                system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+                nixpkgs = {
+                  config.allowUnfree = true;
+                  config.permittedInsecurePackages = [ "olm-3.2.16" ];
+                  overlays = getSystemOverlays config.nixpkgs.hostPlatform.system config.nixpkgs.config;
+                };
+              }
+            )
           ];
         };
         maple = nixpkgs.lib.nixosSystem {
@@ -105,66 +124,71 @@
             eilean.nixosModules.default
             home-manager.nixosModules.default
             agenix.nixosModules.default
-            ({ config, ... }: {
-              networking.hostName = "maple";
-              # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
-              nix.registry.nixpkgs.flake = nixpkgs;
-              # record git revision (can be queried with `nixos-version --json)
-              system.configurationRevision =
-                nixpkgs.lib.mkIf (self ? rev) self.rev;
-              nixpkgs = {
-                config.allowUnfree = true;
-                config.permittedInsecurePackages = [ "olm-3.2.16" ];
-                overlays = getSystemOverlays config.nixpkgs.hostPlatform.system
-                  config.nixpkgs.config;
-              };
-            })
+            (
+              { config, ... }:
+              {
+                networking.hostName = "maple";
+                # pin nix command's nixpkgs flake to the system flake to avoid unnecessary downloads
+                nix.registry.nixpkgs.flake = nixpkgs;
+                # record git revision (can be queried with `nixos-version --json)
+                system.configurationRevision = nixpkgs.lib.mkIf (self ? rev) self.rev;
+                nixpkgs = {
+                  config.allowUnfree = true;
+                  config.permittedInsecurePackages = [ "olm-3.2.16" ];
+                  overlays = getSystemOverlays config.nixpkgs.hostPlatform.system config.nixpkgs.config;
+                };
+              }
+            )
           ];
         };
       };
 
       homeConfigurations = {
-        pf341 = let
-          system = "x86_64-linux";
-          pkgs = nixpkgs.legacyPackages.${system};
-        in home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./home/default.nix
-            {
-              nix.package = pkgs.nix;
-              nixpkgs.overlays = getSystemOverlays "x86_64-linux" { };
-              custom.nvim-lsps = true;
-              home.username = "pf341";
-              home.homeDirectory = "/home/pf341";
-            }
-          ];
-        };
-        patrickferris = let
-          system = "aarch64-darwin";
-          pkgs = nixpkgs.legacyPackages.${system};
-        in home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./home/default.nix
-            {
-              nix.package = pkgs.nix;
-              nixpkgs.overlays = getSystemOverlays "aarch64-darwin" { };
-              home.username = "patrickferris";
-              home.homeDirectory = "/Users/patrickferris";
-              custom.calendar.enable = true;
-              custom.nvim-lsps = true;
-              home.packages = with pkgs; [ lima ];
-              programs.zsh.initExtra = ''
-                # Nix
-                if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-                  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-                fi
-                # End Nix
-              '';
-            }
-          ];
-        };
+        pf341 =
+          let
+            system = "x86_64-linux";
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [
+              ./home/default.nix
+              {
+                nix.package = pkgs.nix;
+                nixpkgs.overlays = getSystemOverlays "x86_64-linux" { };
+                custom.nvim-lsps = true;
+                home.username = "pf341";
+                home.homeDirectory = "/home/pf341";
+              }
+            ];
+          };
+        patrickferris =
+          let
+            system = "aarch64-darwin";
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [
+              ./home/default.nix
+              {
+                nix.package = pkgs.nix;
+                nixpkgs.overlays = getSystemOverlays "aarch64-darwin" { };
+                home.username = "patrickferris";
+                home.homeDirectory = "/Users/patrickferris";
+                custom.calendar.enable = true;
+                custom.nvim-lsps = true;
+                home.packages = with pkgs; [ lima ];
+                programs.zsh.initExtra = ''
+                  # Nix
+                  if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+                    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+                  fi
+                  # End Nix
+                '';
+              }
+            ];
+          };
       };
 
       darwinConfigurations = {
@@ -184,15 +208,15 @@
         };
       };
 
-      legacyPackages = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed
-        (system: {
-          nixpkgs = import nixpkgs {
-            inherit system;
-            overlays = getSystemOverlays system { };
-          };
-        });
+      legacyPackages = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (system: {
+        nixpkgs = import nixpkgs {
+          inherit system;
+          overlays = getSystemOverlays system { };
+        };
+      });
 
-      formatter = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed
-        (system: nixpkgs.legacyPackages.${system}.nixfmt);
+      formatter = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed (
+        system: nixpkgs.legacyPackages.${system}.nixfmt
+      );
     };
 }

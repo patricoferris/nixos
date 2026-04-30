@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.custom.patrick-website;
-in {
+let
+  cfg = config.custom.patrick-website;
+in
+{
   options.custom.patrick-website.enable = lib.mkEnableOption "patrick-website";
 
   config = lib.mkIf cfg.enable {

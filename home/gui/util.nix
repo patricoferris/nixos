@@ -46,4 +46,3 @@
     in
     builtins.concatStringsSep "\n" (builtins.map fileToString filenames);
 }
-

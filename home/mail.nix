@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 let
   address-book = pkgs.writeScriptBin "address-book" ''
@@ -26,7 +31,8 @@ let
       sed -i '1i#!/usr/bin/env python3' $out/bin/mutt_oauth2
     '';
   };
-in {
+in
+{
   options.custom.mail.enable = lib.mkEnableOption "mail";
 
   config = lib.mkIf cfg.enable {
@@ -55,16 +61,14 @@ in {
           general.pgp-provider = "gpg";
           ui.mouse-enabled = true;
           compose.address-book-cmd = "${address-book}/bin/address-book '%s'";
-          compose.file-picker-cmd =
-            "${pkgs.ranger}/bin/ranger --choosefiles=%f";
+          compose.file-picker-cmd = "${pkgs.ranger}/bin/ranger --choosefiles=%f";
           compose.format-flowed = true;
           ui.index-columns = "date<=,name<50,flags>=,subject<*";
           ui.column-name = "{{index (.From | persons) 0}}";
           "ui:folder=Sent".index-columns = "date<=,to<50,flags>=,subject<*";
           "ui:folder=Sent".column-to = "{{index (.To | persons) 0}}";
           openers."text/html" = "firefox --new-window";
-          hooks.mail-recieved = ''
-            notify-send "[$AERC_ACCOUNT/$AERC_FOLDER] mail from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
+          hooks.mail-recieved = ''notify-send "[$AERC_ACCOUNT/$AERC_FOLDER] mail from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
           filters = {
             "text/plain" = "wrap -w 90 | colorize";
             "text/calendar" = "calendar";
@@ -94,8 +98,7 @@ in {
           realName = "Patrick Ferris";
           userName = "patrick@sirref.org";
           address = "patrick@sirref.org";
-          passwordCommand =
-            "${pkgs.pass}/bin/pass show email/patrick@sirref.org";
+          passwordCommand = "${pkgs.pass}/bin/pass show email/patrick@sirref.org";
           imap.host = "mail.sirref.org";
           smtp = {
             host = "mail.sirref.org";
@@ -118,15 +121,23 @@ in {
             expunge = "both";
             remove = "both";
           };
-          msmtp = { enable = true; };
+          msmtp = {
+            enable = true;
+          };
           aerc = {
             enable = true;
             extraAccounts = {
               check-mail-cmd = "${sync-mail}/bin/sync-mail patrick@sirref.org";
               check-mail-timeout = "1m";
               check-mail = "1h";
-              folders-sort =
-                [ "Inbox" "Sent" "Drafts" "Archive" "Spam" "Trash" ];
+              folders-sort = [
+                "Inbox"
+                "Sent"
+                "Drafts"
+                "Archive"
+                "Spam"
+                "Trash"
+              ];
               folder-map = "${pkgs.writeText "folder-map" ''
                 Spam = Junk
                 Bin = Trash
@@ -162,7 +173,7 @@ in {
               };
             };
           };
-          msmtp = { 
+          msmtp = {
             enable = true;
             extraConfig = {
               auth = "xoauth2";
@@ -175,8 +186,15 @@ in {
               check-mail-timeout = "1m";
               check-mail = "1h";
               aliases = "pf341@cam.ac.uk";
-              folders-sort =
-                [ "Inbox" "Sidebox" "Sent" "Drafts" "Archive" "Spam" "Trash" ];
+              folders-sort = [
+                "Inbox"
+                "Sidebox"
+                "Sent"
+                "Drafts"
+                "Archive"
+                "Spam"
+                "Trash"
+              ];
               folder-map = "${pkgs.writeText "folder-map" ''
                 Bin = Trash
               ''}";
@@ -187,8 +205,7 @@ in {
           userName = "patrickferris17@gmail.com";
           address = "patrickferris17@gmail.com";
           realName = "Patrick Ferris";
-          passwordCommand =
-            "${pkgs.pass}/bin/pass show email/patrickferris17@gmail.com";
+          passwordCommand = "${pkgs.pass}/bin/pass show email/patrickferris17@gmail.com";
           flavor = "gmail.com";
           folders = {
             drafts = "Drafts";
@@ -199,8 +216,7 @@ in {
           imapnotify = {
             enable = true;
             boxes = [ "Inbox" ];
-            onNotify =
-              "${sync-mail}/bin/sync-mail patrickferris17@gmail.com:INBOX";
+            onNotify = "${sync-mail}/bin/sync-mail patrickferris17@gmail.com:INBOX";
           };
           mbsync = {
             enable = true;
@@ -213,12 +229,13 @@ in {
               };
             };
           };
-          msmtp = { enable = true; };
+          msmtp = {
+            enable = true;
+          };
           aerc = {
             enable = true;
             extraAccounts = {
-              check-mail-cmd =
-                "${sync-mail}/bin/sync-mail patrickferris17@gmail.com";
+              check-mail-cmd = "${sync-mail}/bin/sync-mail patrickferris17@gmail.com";
               check-mail-timeout = "1m";
               check-mail = "1h";
               folders-sort = [
@@ -241,7 +258,9 @@ in {
           realName = "Search Index";
           address = "search@local";
           aerc.enable = true;
-          aerc.extraAccounts = { source = "maildir://~/mail/search"; };
+          aerc.extraAccounts = {
+            source = "maildir://~/mail/search";
+          };
           aerc.extraConfig = {
             ui = {
               index-columns = "flags>4,date<*,to<30,name<30,subject<*";

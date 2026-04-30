@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }@inputs:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}@inputs:
 
 let
   replacements = {
@@ -22,28 +27,28 @@ let
   };
   util = import ./util.nix { inherit pkgs lib; };
   cfg = config.custom.gui.sway;
-in {
+in
+{
   options.custom.gui.sway.enable = lib.mkEnableOption "sway";
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs;
-      [
-        # https://todo.sr.ht/~scoopta/wofi/73
-        (stdenv.mkDerivation {
-          name = "xterm-compat";
-          buildInputs = [ pkgs.bash ];
-          dontUnpack = true;
-          installPhase = ''
-                      mkdir -p $out/bin
-                      cat > $out/bin/xterm <<EOF
-            #!/usr/bin/env bash
+    home.packages = with pkgs; [
+      # https://todo.sr.ht/~scoopta/wofi/73
+      (stdenv.mkDerivation {
+        name = "xterm-compat";
+        buildInputs = [ pkgs.bash ];
+        dontUnpack = true;
+        installPhase = ''
+                    mkdir -p $out/bin
+                    cat > $out/bin/xterm <<EOF
+          #!/usr/bin/env bash
 
-            exec \$TERMINAL "\$@"
-            EOF
-                      chmod +x $out/bin/xterm
-          '';
-        })
-      ];
+          exec \$TERMINAL "\$@"
+          EOF
+                    chmod +x $out/bin/xterm
+        '';
+      })
+    ];
 
     home.file.".zprofile".text = ''
       # Autostart sway at login on TTY 1
@@ -68,25 +73,30 @@ in {
       fi
     '';
 
-    xdg.configFile = let
-      entries = {
-        "fusuma/config.yml".source = ./fusuma.yml;
-        "kanshi/config".source = ./kanshi;
-        "dunst/dunstrc".source = ./dunst;
-        "swaylock/config".source = ./swaylock;
-        "wofi/style.css".source = ./wofi.css;
-        "swappy/config".text = ''
-          [Default]
-          save_dir=$XDG_PICTURES_DIR/capture/
-          save_filename_format=screenshot_%Y-%m-%dT%H:%M:%S%z.png
-        '';
-        "sway/config".text =
-          let wmFilenames = util.listFilesInDir ./wm/config.d;
-          in let swayFilenames = util.listFilesInDir ./wm/sway;
-          in (util.concatFilesReplace
-            ([ ./wm/config ] ++ wmFilenames ++ swayFilenames) replacements);
-      };
-    in (util.inDirReplace ./wm/scripts "sway/scripts" replacements) // entries;
+    xdg.configFile =
+      let
+        entries = {
+          "fusuma/config.yml".source = ./fusuma.yml;
+          "kanshi/config".source = ./kanshi;
+          "dunst/dunstrc".source = ./dunst;
+          "swaylock/config".source = ./swaylock;
+          "wofi/style.css".source = ./wofi.css;
+          "swappy/config".text = ''
+            [Default]
+            save_dir=$XDG_PICTURES_DIR/capture/
+            save_filename_format=screenshot_%Y-%m-%dT%H:%M:%S%z.png
+          '';
+          "sway/config".text =
+            let
+              wmFilenames = util.listFilesInDir ./wm/config.d;
+            in
+            let
+              swayFilenames = util.listFilesInDir ./wm/sway;
+            in
+            (util.concatFilesReplace ([ ./wm/config ] ++ wmFilenames ++ swayFilenames) replacements);
+        };
+      in
+      (util.inDirReplace ./wm/scripts "sway/scripts" replacements) // entries;
 
     services.gammastep = {
       enable = true;

@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.custom.music;
-in {
+let
+  cfg = config.custom.music;
+in
+{
   options.custom.music.enable = lib.mkEnableOption "music";
 
   config = lib.mkIf cfg.enable {
@@ -25,10 +32,12 @@ in {
       };
     };
 
-    eilean.services.dns.zones.${config.networking.domain}.records = [{
-      name = "music.${config.networking.domain}.";
-      type = "CNAME";
-      value = "vps";
-    }];
+    eilean.services.dns.zones.${config.networking.domain}.records = [
+      {
+        name = "music.${config.networking.domain}.";
+        type = "CNAME";
+        value = "vps";
+      }
+    ];
   };
 }

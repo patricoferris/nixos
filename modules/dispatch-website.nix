@@ -1,7 +1,9 @@
 { config, lib, ... }:
 
-let cfg = config.custom.dispatch-website;
-in {
+let
+  cfg = config.custom.dispatch-website;
+in
+{
   options.custom.dispatch-website.enable = lib.mkEnableOption "dispatch-website";
 
   config = lib.mkIf cfg.enable {

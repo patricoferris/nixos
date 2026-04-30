@@ -1,6 +1,14 @@
-{ pkgs, config, lib, ... }:
 {
-  imports = [ ./hardware-configuration.nix ./networking.nix ];
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./networking.nix
+  ];
 
   boot.loader.grub = {
     enable = true;
@@ -9,7 +17,7 @@
     efiSupport = true;
     useOSProber = true;
   };
-  
+
   # ZFS modprobe support
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
@@ -38,9 +46,14 @@
     programs.git.settings.safe.directory = "/var/lib/git/repos/*";
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
-  environment.systemPackages = with pkgs; [ git agenix
+  environment.systemPackages = with pkgs; [
+    git
+    agenix
     #  (
     #   let
     #     # XXX specify the postgresql package you'd like to upgrade to.
@@ -81,7 +94,11 @@
   users.users = rec {
     patrick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "git" "docker" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [
+        "wheel"
+        "git"
+        "docker"
+      ]; # Enable ‘sudo’ for the user.
       initialHashedPassword = root.initialHashedPassword;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
@@ -95,9 +112,11 @@
     #   ];
     # };
     root = {
-      extraGroups = [ "git" "docker" ]; # Enable ‘sudo’ for the user.
-      initialHashedPassword =
-        "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
+      extraGroups = [
+        "git"
+        "docker"
+      ]; # Enable ‘sudo’ for the user.
+      initialHashedPassword = "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
@@ -123,7 +142,7 @@
     enable = true;
   };
 
-  # CGit config borrowed from Ryan 
+  # CGit config borrowed from Ryan
   services.cgit."git.sirref.org" = {
     enable = true;
     user = "git";
@@ -146,24 +165,24 @@
     };
     repos = {
       "ocaml-bibtex" = {
-        path="/var/lib/git/repos/ocaml-bibtex/.git";
-        desc="A pure OCaml codec for Bibtex";
+        path = "/var/lib/git/repos/ocaml-bibtex/.git";
+        desc = "A pure OCaml codec for Bibtex";
       };
       merry = {
-        path="/var/lib/git/repos/merry/.git";
-        desc="An OCaml library for building Shells";
+        path = "/var/lib/git/repos/merry/.git";
+        desc = "An OCaml library for building Shells";
       };
       bruit = {
-        path="/var/lib/git/repos/bruit/.git";
-        desc="A pure OCaml port of linenoise (a readline alternative)";
+        path = "/var/lib/git/repos/bruit/.git";
+        desc = "A pure OCaml port of linenoise (a readline alternative)";
       };
       shelter = {
-        path="/var/lib/git/repos/shelter/.git";
-        desc="A time-travelling shell";
+        path = "/var/lib/git/repos/shelter/.git";
+        desc = "A time-travelling shell";
       };
     };
   };
-  
+
   virtualisation.docker.enable = true;
 
   services.nginx.virtualHosts."git.sirref.org" = {
@@ -178,11 +197,11 @@
   # Git mirroring cron job
   systemd.timers."git-mirror" = {
     wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnBootSec = "5m";
-        OnUnitActiveSec = "5m";
-        Unit = "git-mirror.service";
-      };
+    timerConfig = {
+      OnBootSec = "5m";
+      OnUnitActiveSec = "5m";
+      Unit = "git-mirror.service";
+    };
   };
 
   systemd.services."git-mirror" = {
@@ -248,10 +267,8 @@
     # <><><> Calendar <><><>
     radicale = {
       enable = true;
-      users.${config.eilean.username}.passwordFile =
-        config.age.secrets.cal-patrick.path;
-      users.deskrejection.passwordFile =
-        config.age.secrets.cal-deskrejection.path;
+      users.${config.eilean.username}.passwordFile = config.age.secrets.cal-patrick.path;
+      users.deskrejection.passwordFile = config.age.secrets.cal-deskrejection.path;
       users.metrick.passwordFile = config.age.secrets.cal-metrick.path;
     };
 
@@ -314,8 +331,7 @@
         {
           name = "mail._domainkey";
           type = "TXT";
-          value =
-            "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
+          value = "v=DKIM1; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDnHd/+eEPaYxfbqwV5MKWlorOPrOMojqhKaYKJQgzBri7/kj96h8RiTt00AxHUGc5LUAhJnDTEnyn9MEdeB+DYplmn29D9v9M1tWrz1b/kmAmkhacnRGnlIk/mc70Wqfu1W/2jmEYXfXT6wSTq6o/Ch/myI2X8rljYMdmHnlgZjQIDAQAB";
         }
         {
           name = "git.${config.networking.domain}.";
@@ -360,8 +376,7 @@
   # <><><> Email <><><>
   age.secrets.email-patrick.file = ../../secrets/email-patrick.age;
   age.secrets.email-system.file = ../../secrets/email-system.age;
-  eilean.mailserver.systemAccountPasswordFile =
-    config.age.secrets.email-system.path;
+  eilean.mailserver.systemAccountPasswordFile = config.age.secrets.email-system.path;
   mailserver.stateVersion = lib.mkDefault 3;
   mailserver.loginAccounts = {
     "${config.eilean.username}@${config.networking.domain}" = {

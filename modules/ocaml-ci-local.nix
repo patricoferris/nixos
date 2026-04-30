@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
-let cfg = config.custom.ocaml-ci-local;
-in {
+let
+  cfg = config.custom.ocaml-ci-local;
+in
+{
   options.custom.ocaml-ci-local.enable = lib.mkEnableOption "ocaml-ci-local";
 
   config = lib.mkIf cfg.enable {
@@ -21,7 +28,12 @@ in {
 
     systemd.services.ocaml-ci-local = {
       enable = true;
-      path = with pkgs; [ docker git solver-service graphviz ];
+      path = with pkgs; [
+        docker
+        git
+        solver-service
+        graphviz
+      ];
       description = "Local testing infrastructure.";
       wantedBy = [ "default.target" ];
       serviceConfig = {
@@ -46,10 +58,12 @@ in {
       };
     };
 
-    eilean.services.dns.zones.${config.networking.domain}.records = [{
-      name = "tests.${config.networking.domain}.";
-      type = "CNAME";
-      value = "vps";
-    }];
+    eilean.services.dns.zones.${config.networking.domain}.records = [
+      {
+        name = "tests.${config.networking.domain}.";
+        type = "CNAME";
+        value = "vps";
+      }
+    ];
   };
 }

@@ -2,10 +2,16 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./backup.nix
   ];
@@ -37,15 +43,14 @@
     };
   };
 
-  # For Plan 9 Fun! 
+  # For Plan 9 Fun!
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "patrick" ];
 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -54,22 +59,26 @@
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    drivers = with pkgs; [ gutenprint gutenprint-bin cnijfilter2 ];
+    drivers = with pkgs; [
+      gutenprint
+      gutenprint-bin
+      cnijfilter2
+    ];
   };
 
   hardware.printers.ensurePrinters = [
-  {
-    name = "Canon_MX395";
-    location = "Home";
-    deviceUri = "usb://Canon/MX390%20series?serial=00C90F&interface=1";
-    model = "canonmx490.ppd";
-    ppdOptions = {
-      PageSize = "A4";
-    };
-  }
-];
+    {
+      name = "Canon_MX395";
+      location = "Home";
+      deviceUri = "usb://Canon/MX390%20series?serial=00C90F&interface=1";
+      model = "canonmx490.ppd";
+      ppdOptions = {
+        PageSize = "A4";
+      };
+    }
+  ];
 
-  # iOS 
+  # iOS
   services.usbmuxd.enable = true;
 
   services.hardware.bolt.enable = true;
@@ -85,15 +94,18 @@
   users.users = rec {
     patrick = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "networkmanager" "docker" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "docker"
+      ]; # Enable ‘sudo’ for the user.
       initialHashedPassword = root.initialHashedPassword;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiobEqDGuy5NpMIh3JDZ5cMO0EbgYAFtDUWGObkpO6+"
       ];
     };
     root = {
-      initialHashedPassword =
-        "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
+      initialHashedPassword = "$y$j9T$Z8Fs2l74CgVO/t1ZSNmo./$GvOWgmfjNS.CmkzYTXYYkzgFKRMdAaqe1sXSZrJlqI.";
     };
   };
 
@@ -101,7 +113,13 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [ nheko element-desktop nixd nixfmt-rfc-style asdbctl ];
+  environment.systemPackages = with pkgs; [
+    nheko
+    element-desktop
+    nixd
+    nixfmt-rfc-style
+    asdbctl
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -147,4 +165,3 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-
