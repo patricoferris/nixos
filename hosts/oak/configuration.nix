@@ -128,12 +128,12 @@
     enable = true;
     user = "git";
     group = "git";
-    # We use the cgitrc file below for better control.
-    # But we have to add a scan path...
-    scanPath = "/var/lib/empty";
     gitHttpBackend = {
       enable = true;
       checkExportOkFiles = false;
+    };
+    nginx = {
+      virtualHost = "git.sirref.org";
     };
     settings = {
       root-title = "Sirref Git Repositories";
@@ -144,27 +144,24 @@
       clone-url = "https://git.sirref.org/$CGIT_REPO_URL";
       branch-sort = "age";
     };
-    extraConfig = ''
-    section=Codecs
-
-    repo.url=ocaml-bibtex
-    repo.path=/var/lib/git/repos/ocaml-bibtex/.git
-    repo.desc=A pure OCaml codec for Bibtex
-
-    section=Shells
-
-    repo.url=merry
-    repo.path=/var/lib/git/repos/merry/.git
-    repo.desc=An OCaml library for building Shells
-
-    repo.url=bruit
-    repo.path=/var/lib/git/repos/bruit/.git
-    repo.desc=A pure OCaml port of linenoise (a readline alternative)
-
-    repo.url=shelter
-    repo.path=/var/lib/git/repos/shelter/.git
-    repo.desc=A time-travelling shell
-    '';
+    repos = {
+      "ocaml-bibtex" = {
+        path="/var/lib/git/repos/ocaml-bibtex/.git";
+        desc="A pure OCaml codec for Bibtex";
+      };
+      merry = {
+        path="/var/lib/git/repos/merry/.git";
+        desc="An OCaml library for building Shells";
+      };
+      bruit = {
+        path="/var/lib/git/repos/bruit/.git";
+        desc="A pure OCaml port of linenoise (a readline alternative)";
+      };
+      shelter = {
+        path="/var/lib/git/repos/shelter/.git";
+        desc="A time-travelling shell";
+      };
+    };
   };
   
   virtualisation.docker.enable = true;
@@ -238,12 +235,12 @@
 
     services.dns.server = "eon";
 
-    turn.enable = false;
+    turn.enable = true;
 
     mailserver.enable = true;
     matrix = {
       enable = true;
-      turn = false;
+      elementCall = true;
       bridges.whatsapp = true;
       bridges.signal = true;
     };

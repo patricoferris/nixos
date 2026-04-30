@@ -8,7 +8,11 @@ in {
 
     services.navidrome = {
       enable = true;
-      settings.MusicFolder = "/var/music";
+      settings = {
+        MusicFolder = "/var/music";
+        DefaultShareExpiration = "168h"; # 1 week
+        EnableSharing = true;
+      };
     };
 
     services.nginx = {
