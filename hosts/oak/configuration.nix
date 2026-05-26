@@ -33,6 +33,7 @@
     shelter-website.enable = true;
     dispatch-website.enable = true;
     deskrejection-website.enable = true;
+    geocaml-website.enable = true;
     hedgedoc.enable = true;
     sherlorocq.enable = true;
     ocaml-ci-local.enable = true;
@@ -168,6 +169,10 @@
         path = "/var/lib/git/repos/ocaml-bibtex/.git";
         desc = "A pure OCaml codec for Bibtex";
       };
+      "ocaml-did" = {
+        path = "/var/lib/git/repos/ocaml-did/.git";
+        desc = "A pure OCaml codec for DIDs";
+      };
       merry = {
         path = "/var/lib/git/repos/merry/.git";
         desc = "An OCaml library for building Shells";
@@ -176,9 +181,21 @@
         path = "/var/lib/git/repos/bruit/.git";
         desc = "A pure OCaml port of linenoise (a readline alternative)";
       };
+      glob = {
+        path = "/var/lib/git/repos/glob/.git";
+        desc = "A pure OCaml port of glob(3).";
+      };
       shelter = {
         path = "/var/lib/git/repos/shelter/.git";
         desc = "A time-travelling shell";
+      };
+      eio_progress = {
+        path = "/var/lib/git/repos/eio_progress/.git";
+        desc = "Eio flows with progress bars";
+      };
+      "opam-repository" = {
+        path = "/var/lib/git/repos/opam-repository/.git";
+        desc = "A personal opam-repository";
       };
     };
   };
@@ -205,11 +222,14 @@
   };
 
   systemd.services."git-mirror" = {
+    path = with pkgs; [ openssh ];
     script = ''
       set -eu
-      for repo in /var/lib/git/repos/*.git; do
-        echo "Mirroring $repo"
-        ${pkgs.git}/bin/git --git-dir $repo push --mirror "git@github.com:patricoferris/$(basename --suffix=".git" $repo)"
+      for repo in /var/lib/git/repos/**/.git; do
+        repo_name=$(basename $(dirname $repo))
+        echo "Pushing to $repo"
+        ${pkgs.git}/bin/git --git-dir $repo push --mirror "git@knot.cl.cam.ac.uk:patrick.sirref.org/$repo_name" || true
+        ${pkgs.git}/bin/git --git-dir $repo push --mirror "git@github.com:patricoferris/$repo_name" || true
       done
     '';
     serviceConfig = {
@@ -342,6 +362,32 @@
           name = "photos.${config.networking.domain}.";
           type = "CNAME";
           value = "vps";
+        }
+      ];
+    };
+    "geocaml.org" = {
+      soa.serial = 64;
+      soa.ns = "ns1.sirref.org";
+      records = [
+        {
+          name = "@";
+          type = "NS";
+          value = "ns1.sirref.org.";
+        }
+        {
+          name = "@";
+          type = "NS";
+          value = "ns1.freumh.org.";
+        }
+        {
+          name = "@";
+          type = "A";
+          value = config.eilean.serverIpv4;
+        }
+        {
+          name = "@";
+          type = "AAAA";
+          value = config.eilean.serverIpv6;
         }
       ];
     };

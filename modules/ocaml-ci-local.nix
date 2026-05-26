@@ -43,7 +43,7 @@ in
           #!${pkgs.bash}/bin/bash
           run_local () {
             for dir in $@; do
-              echo "Maybe runnning $dir" >2
+              echo "Maybe running $dir" >2
               echo $dir
             done | grep -v "shell-commands" | xargs -- ${pkgs.ocaml-ci-service}/bin/ocaml-ci-local --port=9999 -v
           }

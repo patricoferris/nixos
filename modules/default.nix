@@ -17,6 +17,7 @@ in
     ./shelter-website.nix
     ./dispatch-website.nix
     ./desk-rejection-website.nix
+    ./geocaml-website.nix
     ./rss_to_mail.nix
     ./hedgedoc.nix
     ./music.nix
