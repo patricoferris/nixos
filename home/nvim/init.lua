@@ -34,6 +34,13 @@ vim.opt_local.spelllang = 'en_gb'
 
 vim.wo.number = true
 vim.api.nvim_create_augroup('numbertoggle', { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    if vim.bo.filetype == "markdown" or vim.bo.filetype == "tex" then
+      vim.cmd("LspStart ltex")
+    end
+  end,
+})
 vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'WinEnter' }, {
 	group = 'numbertoggle',
 	pattern = '*',
