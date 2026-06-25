@@ -163,6 +163,7 @@
       enable-git-config = true;
       clone-url = "https://git.sirref.org/$CGIT_REPO_URL";
       branch-sort = "age";
+      source-filter="${pkgs.cgit}/lib/cgit/filters/syntax-highlighting.py";
     };
     repos = {
       "ocaml-bibtex" = {
@@ -192,6 +193,10 @@
       eio_progress = {
         path = "/var/lib/git/repos/eio_progress/.git";
         desc = "Eio flows with progress bars";
+      };
+      eio_mem = {
+        path = "/var/lib/git/repos/eio_mem/.git";
+        desc = "In-memory resources for Eio";
       };
       "opam-repository" = {
         path = "/var/lib/git/repos/opam-repository/.git";
