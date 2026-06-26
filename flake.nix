@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     eilean.url = "github:RyanGibb/eilean-nix/main";
     eilean.inputs.nixpkgs.follows = "nixpkgs";
@@ -8,7 +8,7 @@
     eilean.inputs.eon.follows = "eon";
     msh.url = "git+https://tangled.org/patrick.sirref.org/merry";
     msh.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-26.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     darwin.url = "github:lnl7/nix-darwin";
     agenix.url = "github:ryantm/agenix";
